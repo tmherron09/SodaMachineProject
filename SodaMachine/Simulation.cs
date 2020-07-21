@@ -45,7 +45,7 @@ namespace SodaMachine
             do
             {
                 // Ask user if they would like a soda.
-                if(!UserInterface.GetUserInputYesNo())
+                if(!UserInterface.GetUserInputYesNo("Would you like to buy a sode?"))
                 {
                     break;
                 }

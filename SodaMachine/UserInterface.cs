@@ -85,7 +85,23 @@ namespace SodaMachine
 
         public static bool GetUserInputYesNo(string message)
         {
-            
+            Console.WriteLine(message);
+
+            string userChoice;
+            while (true)
+            {
+                Console.Clear();
+                Console.Write(message);
+                userChoice = Console.ReadLine().ToLower();
+                if (userChoice == "y" || userChoice == "yes")
+                {
+                    return true;
+                }
+                else if (userChoice == "n" || userChoice == "no")
+                {
+                    return false;
+                }
+            }
         }
 
 
