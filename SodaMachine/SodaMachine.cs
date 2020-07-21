@@ -27,7 +27,14 @@ namespace SodaMachine
         // If enough coins inserted and enough change, dispense soda and subtract from inventory
         // Give change and subtract from register.
 
-
-
+        public List<Coin> AcceptPayment(List<Coin> payment, Can soda)
+        {
+            // Add coins
+            throw new NotImplementedException();
+        }
+        public Can DispenseSodaCan(Can soda)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
