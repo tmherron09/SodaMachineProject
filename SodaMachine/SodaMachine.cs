@@ -17,10 +17,12 @@ namespace SodaMachine
         {
             register = new List<Coin>();
             inventory = new List<Can>();
+            InitializeSodaSelection();
         }
         public SodaMachine(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies)
         {
             inventory = new List<Can>();
+            InitializeSodaSelection();
             register = new List<Coin>();
             for (int i = 0; i < numberOfQuarters; i++)
             {
@@ -38,11 +40,12 @@ namespace SodaMachine
             {
                 register.Add(new Penny());
             }
-            
+
         }
         public SodaMachine(int numberOfCola, int numberOfOrangeSoda, int numberOfRootBeet)
         {
             register = new List<Coin>();
+            InitializeSodaSelection();
             inventory = new List<Can>();
             for (int i = 0; i < numberOfCola; i++)
             {
@@ -91,13 +94,25 @@ namespace SodaMachine
             {
                 inventory.Add(new RootBeer());
             }
+            // Initialize Soda Selection
+            InitializeSodaSelection();
+
         }
         public SodaMachine(List<Coin> coins, List<Can> cans)
         {
             register = coins;
             inventory = cans;
+            InitializeSodaSelection();
         }
-
+        public void InitializeSodaSelection()
+        {
+            sodaSelection = new List<Can>()
+            {
+                new RootBeer(),
+                new Cola(),
+                new OrangeSoda()
+            };
+        }
 
         // Methods
 
@@ -108,15 +123,15 @@ namespace SodaMachine
         // Calculate if enough coins can be returned.
         // If enough coins inserted and enough change, dispense soda and subtract from inventory
         // Give change and subtract from register.
-        
+
         public bool CheckTransAction(Can soda, List<Coin> customerCoins)
         {
-            if(CheckInventoryForSoda(soda))
+            if (CheckInventoryForSoda(soda))
             {
-                if(CheckIfEnoughCoins(soda, customerCoins))
+                if (CheckIfEnoughCoins(soda, customerCoins))
                 {
                     double requiredChange = CaluclateChange(customerCoins, soda);
-                    if(CanGiveChange(requiredChange))
+                    if (CanGiveChange(requiredChange))
                     {
                         return true;
                     }
@@ -124,10 +139,10 @@ namespace SodaMachine
             }
             return false;
         }
-        
+
         public bool CheckIfEnoughCoins(Can soda, List<Coin> customerCoins)
         {
-            
+
 
 
             throw new NotImplementedException();
@@ -165,7 +180,7 @@ namespace SodaMachine
         }
         private void OrganizeInventory()
         {
-            inventory= inventory.OrderBy(x => x.Name).ToList();
+            inventory = inventory.OrderBy(x => x.Name).ToList();
         }
         private void OrganizeRegister()
         {
