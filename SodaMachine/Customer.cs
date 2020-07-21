@@ -56,5 +56,13 @@ namespace SodaMachine
             throw new NotImplementedException();
         }
 
+        public void UseSodaMachine(SodaMachine sodaMachine)
+        {
+            string sodaName = UserInterface.AskForSodaSelection();
+            
+
+        }
+
+
     }
 }

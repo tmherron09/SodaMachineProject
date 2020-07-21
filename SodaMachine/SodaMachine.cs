@@ -8,8 +8,8 @@ namespace SodaMachine
 {
     public class SodaMachine
     {
-        List<Coin> register;
-        List<Can> inventory;
+        public List<Coin> register;
+        public List<Can> inventory;
 
         // On construct define starting coins
         public SodaMachine()

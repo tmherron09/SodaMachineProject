@@ -11,9 +11,10 @@ namespace SodaMachine
     public static class UserInterface
     {
 
+
         // Display Messages, Text or List methods.
 
-        public static void DisplayListOfNames(List<Coin> coins)
+        public static void DisplayList(List<Coin> coins)
         {
             List<string> names = new List<string>();
             int counter = 0;
@@ -28,7 +29,7 @@ namespace SodaMachine
                 }
             }
         }
-        public static void DisplayListOfNames(List<Can> cans)
+        public static void DisplayList(List<Can> cans)
         {
             List<string> names = new List<string>();
             int counter = 0;
@@ -43,9 +44,44 @@ namespace SodaMachine
                 }
             }
         }
+        public static void DisplayList(string[] textLines)
+        {
+            foreach(string text in textLines)
+            {
+                Console.Write(text);
+            }
+        }
 
 
+        public static void DisplayListOfCoins(List<Coin> coins)
+        {
+            int numberOfQuarters = 0;
+            int numberOfDimes = 0;
+            int numberOfNickels = 0;
+            int numberOfPennies = 0;
 
+            foreach (Coin coin in coins)
+            {
+                switch (coin.name)
+                {
+                    case "quarter":
+                        numberOfQuarters++;
+                        break;
+                    case "dime":
+                        numberOfDimes++;
+                        break;
+
+                    case "nickel":
+                        numberOfNickels++;
+                        break;
+                    case "penny":
+                        numberOfPennies++;
+                        break;
+                }
+            }
+            // Display contents
+            string[] coinList = new string[] { $"Quarters: {numberOfQuarters}\n", $"Dimes: {numberOfDimes}\n", $"Nickels: {numberOfNickels}\n", $"Pennies: {numberOfPennies}\n" };
+        }
         // Display for specific Objects
         public static void DisplayContentsOfCustomerWallet(Customer customer)
         {
@@ -73,14 +109,24 @@ namespace SodaMachine
                         break;
                 }
             }
-
             // Display contents
-
         }
-        public static void AskForSodaSelection()
+        public static string AskForSodaSelection()
         {
+
             throw new NotImplementedException();
         }
+
+
+
+
+
+
+
+
+
+
+        // Get user input methods, YES/NO, Multiple Choice
 
 
         public static bool GetUserInputYesNo(string message)
@@ -103,17 +149,6 @@ namespace SodaMachine
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-        // Get user input methods, YES/NO, Multiple Choice
-
 
 
 

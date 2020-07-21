@@ -44,26 +44,14 @@ namespace SodaMachine
 
             do
             {
-                // Ask user if they would like a soda.
-                if(!UserInterface.GetUserInputYesNo("Would you like to buy a sode?"))
-                {
-                    break;
-                }
-                // Local variables
-                Can customerChoice;
+                // Display Soda Machine Welcome Message
                 
-                List<Coin> returnChange;
-                Can dispensedSoda;
 
-                // Display Sodas and Prices
                 // DisplaySodaOfferings();
                 // Ask for user input. 
-                UserInterface.AskForSodaSelection();
-                Can sodaChoice;
                 // Check Wallet if Customer has enough money.
 
                 // Ask for what coins they would like to input.
-                List<Coin> customerCoinsToInput;
                 // Compare list of coins to wallet contents.
                 // If match, send to machine with soda choice
                 
@@ -84,11 +72,7 @@ namespace SodaMachine
                     // Give coins back to Customer, who puts it in wallet.
                     // Display Invalid XYZ
                 }
-
-
-
-
-            } while (true); // While customer still using soda machine.
+            } while (UserInterface.GetUserInputYesNo("Would you like to buy a soda?")); // While customer still using soda machine.
         }
 
 
