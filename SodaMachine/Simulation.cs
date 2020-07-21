@@ -49,28 +49,46 @@ namespace SodaMachine
                 {
                     break;
                 }
+                // Local variables
+                Can customerChoice;
+                
+                List<Coin> returnChange;
+                Can dispensedSoda;
 
                 // Display Sodas and Prices
                 // DisplaySodaOfferings();
                 // Ask for user input. 
                 UserInterface.AskForSodaSelection();
+                Can sodaChoice;
+                // Check Wallet if Customer has enough money.
 
-                // Display selection choice: Name/Price
                 // Ask for what coins they would like to input.
+                List<Coin> customerCoinsToInput;
                 // Compare list of coins to wallet contents.
                 // If match, send to machine with soda choice
-                if(sodaMachine.CheckTransAction(soda, customerCoins))
-                {
+                
 
+
+
+                if (sodaMachine.CheckTransAction(sodaChoice, customerCoinsToInput))
+                {
+                    // Remove coins from Customer Wallet
+                    // Add coins to Soda Machine
+                    // Remove Soda from Soda Machine
+                    // Put Soda into Customer Backpack
+
+                    // Ask if user would like another soda?
+                }
+                else
+                {
+                    // Give coins back to Customer, who puts it in wallet.
+                    // Display Invalid XYZ
                 }
 
 
 
+
             } while (true); // While customer still using soda machine.
-
-
-
-
         }
 
 

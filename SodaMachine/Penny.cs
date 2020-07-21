@@ -11,7 +11,7 @@ namespace SodaMachine
         public Penny()
         {
             Value = .01;
-            Name = "penny";
+            name = "penny";
         }
     }
 }

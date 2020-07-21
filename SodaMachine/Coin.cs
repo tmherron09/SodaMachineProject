@@ -8,10 +8,10 @@ namespace SodaMachine
 {
     abstract public class Coin
     {
-        private double value;
-        private string name;
-        public double Value { get { return value; } protected set { this.value = value; } }
-        public string Name { get { return name; } protected set { this.name = value; } }
+        protected double value;
+        public string name;
+        public double Value { get { return value; } }
+        //public string Name { get { return name; } protected set { this.name = value; } }
         
 
         public static int Alphabetize(string x, string y)

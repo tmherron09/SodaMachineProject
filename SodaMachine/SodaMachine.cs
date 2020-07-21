@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
-    class SodaMachine
+    public class SodaMachine
     {
         List<Coin> register;
         List<Can> inventory;
@@ -122,8 +122,6 @@ namespace SodaMachine
                 }
             }
             return false;
-
-
         }
         
         public bool CheckIfEnoughCoins(Can soda, List<Coin> customerCoins)
@@ -147,6 +145,7 @@ namespace SodaMachine
         public bool CheckInventoryForSoda(Can soda)
         {
             // Check if any matching sodas.
+
             return inventory.Exists(x => x.Name == soda.Name);
         }
         public List<Coin> AcceptPayment(List<Coin> payment, Can soda)
@@ -169,7 +168,7 @@ namespace SodaMachine
         }
         private void OrganizeRegister()
         {
-            register = register.OrderBy(x => x.Name).ToList();
+            register = register.OrderBy(x => x.name).ToList();
         }
     }
 }

@@ -9,6 +9,7 @@ namespace SodaMachine
     class Wallet
     {
         private List<Coin> coins;
+
         private double totalAmount;
         public double TotalAmount { get { return totalAmount; } private set {totalAmount = value; } }
         public Wallet()
@@ -130,7 +131,7 @@ namespace SodaMachine
         }
         private void OrganizeCoinsInWallet()
         {
-            coins = coins.OrderBy(x => x.Name).ToList();
+            coins = coins.OrderBy(x => x.name).ToList();
         }
 
 

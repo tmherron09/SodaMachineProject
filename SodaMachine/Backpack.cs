@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
-    class Backpack
+    public class Backpack
     {
-        List<Can> cans;
+        public List<Can> cans { get; private set; }
 
         public Backpack()
         {
@@ -21,6 +21,7 @@ namespace SodaMachine
 
         public void AddCan(Can soda)
         {
+            cans.Add(soda);
             throw new NotImplementedException();
         }
         public void ReportContents()

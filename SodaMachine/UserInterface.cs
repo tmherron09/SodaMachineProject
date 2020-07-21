@@ -20,11 +20,11 @@ namespace SodaMachine
             Console.WriteLine("This list contains:");
             for (int i = 0; i < coins.Count; i++)
             {
-                if (!names.Contains(coins[i].Name))
+                if (!names.Contains(coins[i].name))
                 {
                     counter++;
-                    names.Add(coins[i].Name);
-                    Console.WriteLine($"{counter}) {coins[i].Name}");
+                    names.Add(coins[i].name);
+                    Console.WriteLine($"{counter}) {coins[i].name}");
                 }
             }
         }
@@ -56,7 +56,7 @@ namespace SodaMachine
             List<Coin> coins = customer.CheckCustomerWalletContents();
             foreach (Coin coin in coins)
             {
-                switch (coin.Name)
+                switch (coin.name)
                 {
                     case "quarter":
                         numberOfQuarters++;
@@ -83,9 +83,9 @@ namespace SodaMachine
         }
 
 
-        internal static bool GetUserInputYesNo()
+        public static bool GetUserInputYesNo(string message)
         {
-            throw new NotImplementedException();
+            
         }
 
 
