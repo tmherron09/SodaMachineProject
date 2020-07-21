@@ -17,7 +17,10 @@ namespace SodaMachine
             sodaMachine = new SodaMachine();
         }
 
+
+
         // RunSimulation()
+        // Initialize Simulation
         // Call the user interface for Customer and Soda Machine Interaction.
         // Go between for Customer and SodaMachine class
         // Call to ask for which soda the user wants.
@@ -29,6 +32,65 @@ namespace SodaMachine
         // Recieve change from soda machine and give to Customer.
         // Recieve soda and give soda to customer to put in backpack.
         // Start over.
+
+
+        public void RunSimulation()
+        {
+            //Call Initialization
+            InitializeSimuation();
+
+            do
+            {
+                // Ask user if they would like a soda.
+
+
+
+
+
+            } while (true); // While customer still using soda machine.
+
+
+
+
+        }
+
+
+
+
+
+
+        #region Initialization Methods
+        /* Initialization Methods */
+        private void InitializeSimuation()
+        {
+            // initialize a new SodaMachine
+            InitializeNewSodaMachine();
+            // Call method to initialize new Customer.
+            InitializeNewCustomer();
+        }
+
+        private void InitializeNewSodaMachine()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void InitializeNewCustomer()
+        {
+            throw new NotImplementedException();
+        } 
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }
