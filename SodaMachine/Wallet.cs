@@ -8,7 +8,9 @@ namespace SodaMachine
 {
     class Wallet
     {
-        public List<Coin> coins;
+        private List<Coin> coins;
+        private double totalAmount;
+        public double TotalAmount { get { return totalAmount; } private set {totalAmount = value; } }
         public Wallet()
         {
             coins = new List<Coin>();
@@ -40,6 +42,20 @@ namespace SodaMachine
         // Wallet can have coins removed.
         // Wallet can have coins added.
         
+        // Return a copy of the List
+        public List<Coin> GetCoinList()
+        {
+            OrganizeCoinsInWallet();
+            List<Coin> coinsToReturn = coins;
+            return coinsToReturn;
+        }
+
+        public void CalculateTotalAmount()
+        {
+            // Loop over each coin, tally values, set into TotalAmount/totalAmount.
+
+            throw new NotImplementedException();
+        }
 
         public void AddCoins(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies)
         {

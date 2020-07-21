@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
-    class Customer
+    public class Customer
     {
-        Wallet wallet;
-        Backpack backpack;
-
+        private Wallet wallet;
+        private Backpack backpack;
 
         public Customer()
         {
@@ -27,9 +26,14 @@ namespace SodaMachine
         // Customer can recieve change
 
 
-        public List<Coin> GetCustomerWalletContents()
+        public List<Coin> CheckCustomerWalletContents()
         {
-            throw new NotImplementedException();
+            return wallet.GetCoinList();  // Returns a copy of the Coin List
+        }
+        public Backpack GetCustomerBackpack()
+        {
+
+            return backpack;
         }
         public bool HasEnoughMoney(double price)
         {
