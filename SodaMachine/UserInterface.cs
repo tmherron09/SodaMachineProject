@@ -32,13 +32,13 @@ namespace SodaMachine
         {
             List<string> names = new List<string>();
             int counter = 0;
-            Console.WriteLine("This list contains:");
+            Console.WriteLine("This Soda Machine offers: ");
             for (int i = 0; i < cans.Count; i++)
             {
                 if (!names.Contains(cans[i].Name))
                 {
                     counter++;
-                    names.Add(cans[i].Name);
+                    names.Add($"{cans[i].Name,10}${cans[i].Price:#0.00}");
                     Console.WriteLine($"{counter}) {cans[i].Name}");
                 }
             }
@@ -77,9 +77,19 @@ namespace SodaMachine
             // Display contents
 
         }
+        public static void AskForSodaSelection()
+        {
+            throw new NotImplementedException();
+        }
 
 
-    
+        internal static bool GetUserInputYesNo()
+        {
+            throw new NotImplementedException();
+        }
+
+
+
 
 
 

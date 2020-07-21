@@ -11,6 +11,9 @@ namespace SodaMachine
         SodaMachine sodaMachine;
         Customer customer;
 
+        // Simulation variables
+        
+
         public Simulation()
         {
             customer = new Customer();
@@ -42,8 +45,24 @@ namespace SodaMachine
             do
             {
                 // Ask user if they would like a soda.
+                if(!UserInterface.GetUserInputYesNo())
+                {
+                    break;
+                }
 
+                // Display Sodas and Prices
+                // DisplaySodaOfferings();
+                // Ask for user input. 
+                UserInterface.AskForSodaSelection();
 
+                // Display selection choice: Name/Price
+                // Ask for what coins they would like to input.
+                // Compare list of coins to wallet contents.
+                // If match, send to machine with soda choice
+                if(sodaMachine.CheckTransAction(soda, customerCoins))
+                {
+
+                }
 
 
 

@@ -107,11 +107,57 @@ namespace SodaMachine
         // Calculate if enough coins can be returned.
         // If enough coins inserted and enough change, dispense soda and subtract from inventory
         // Give change and subtract from register.
+        
+        public bool CheckTransAction(Can soda, List<Coin> customerCoins)
+        {
+            if(CheckInventoryForSoda(soda))
+            {
+                if(CheckIfEnoughCoins(soda, customerCoins))
+                {
+                    double requiredChange = CaluclateChange(customerCoins, soda);
+                    if(CanGiveChange(requiredChange))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
 
+
+        }
+        
+        public bool CheckIfEnoughCoins(Can soda, List<Coin> customerCoins)
+        {
+            
+
+
+            throw new NotImplementedException();
+        }
+        public double CaluclateChange(List<Coin> customerCoins, Can soda)
+        {
+
+            throw new NotImplementedException();
+        }
+        public bool CanGiveChange(double requriedChange)
+        {
+
+
+            throw new NotImplementedException();
+        }
+        public bool CheckInventoryForSoda(Can soda)
+        {
+            // Check if any matching sodas.
+            return inventory.Exists(x => x.Name == soda.Name);
+        }
         public List<Coin> AcceptPayment(List<Coin> payment, Can soda)
         {
             // Add coins
             throw new NotImplementedException();
+        }
+        public List<Can> SodaOfferings()
+        {
+            List<Can> sodas = inventory;
+            return sodas;
         }
         public Can DispenseSodaCan(Can soda)
         {
