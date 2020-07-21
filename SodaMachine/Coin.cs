@@ -47,5 +47,10 @@ namespace SodaMachine
             }
 
         }
+
+        public static void OrderByValue(List<Coin> coins)
+        {
+            coins = coins.OrderByDescending(x => x.Value).ToList();
+        }
     }
 }
