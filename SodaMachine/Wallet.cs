@@ -59,6 +59,7 @@ namespace SodaMachine
             {
                 coins.Add(new Penny());
             }
+            OrganizeCoinsInWallet();
         }
 
         // Refactor into One for loop.
@@ -109,6 +110,7 @@ namespace SodaMachine
                     throw new Exception();
                     break;
             }
+            OrganizeCoinsInWallet();
         }
         private void OrganizeCoinsInWallet()
         {
