@@ -173,9 +173,9 @@ namespace SodaMachine
         /// Asks the user for their selection. Once selected it displays the cost and asks for verification. If the change their mind the loop will start over.
         /// </summary>
         /// <returns>The name of the soda.</returns>
-        public static string AskForSodaSelection(List<Can> sodaSelection)
+        public static string[] AskForSodaSelection(List<Can> sodaSelection)
         {
-            string sodaChoice;
+            string[] sodaChoice = new string[2];
             bool decided = false; // Runs the loops.
             Console.WriteLine("The Soda Machine glows in front of you, before a cold beverage awaits!");
             do
@@ -188,14 +188,15 @@ namespace SodaMachine
                     Console.WriteLine($"{i+ 1}) {sodaSelection[i].Name}");
                 }
                 bool valid = false;
-                sodaChoice = Console.ReadLine();
+                sodaChoice[0] = Console.ReadLine();
                 for(int i = 0; i < sodaSelection.Count; i++)
                 {
-                    if (sodaChoice == $"{i + 1}" || sodaChoice.ToLower() == sodaSelection[i].Name.ToLower())
+                    if (sodaChoice[0] == $"{i + 1}" || sodaChoice[0].ToLower() == sodaSelection[i].Name.ToLower())
                     {
                         valid = true;
-                        sodaChoice = sodaSelection[i].Name;
-                        if (GetUserInputYesNo($"{sodaSelection[i].Name} is ${sodaSelection[i].Price:#.00}. Are you sure? (Y/N)", false))
+                        sodaChoice[0] = sodaSelection[i].Name;
+                        sodaChoice[1] = sodaSelection[i].Price.ToString();
+                        if (GetUserInputYesNo($"{sodaChoice[0]} is ${sodaSelection[i].Price:#.00}. Are you sure? (Y/N)", false))
                         {
                             decided = true;
                         }
