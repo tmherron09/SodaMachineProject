@@ -46,6 +46,7 @@
     <Compile Include="Backpack.cs" />
     <Compile Include="Can.cs" />
     <Compile Include="Coin.cs" />
+    <Compile Include="CoinCalculator.cs" />
     <Compile Include="Cola.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Dime.cs" />
