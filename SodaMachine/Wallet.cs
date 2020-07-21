@@ -64,13 +64,55 @@ namespace SodaMachine
         // Refactor into One for loop.
         public void AddCoins(string coinName, int numberOfCoins)
         {
-            if(coinName == "Quarter")
+            switch (coinName)
             {
-                for (int i = 0; i < numberOfCoins; i++)
-                {
-                    coins.Add(new Quarter());
-                }
+                case "quarter":
+                    {
+                        for (int i = 0; i < numberOfCoins; i++)
+                        {
+                            coins.Add(new Quarter());
+                        }
+
+                        break;
+                    }
+
+                case "dime":
+                    {
+                        for (int i = 0; i < numberOfCoins; i++)
+                        {
+                            coins.Add(new Dime());
+                        }
+
+                        break;
+                    }
+
+                case "nickel":
+                    {
+                        for (int i = 0; i < numberOfCoins; i++)
+                        {
+                            coins.Add(new Nickel());
+                        }
+
+                        break;
+                    }
+
+                case "penny":
+                    {
+                        for (int i = 0; i < numberOfCoins; i++)
+                        {
+                            coins.Add(new Penny());
+                        }
+
+                        break;
+                    }
+                default:
+                    throw new Exception();
+                    break;
             }
+        }
+        private void OrganizeCoinsInWallet()
+        {
+            coins = coins.OrderBy(x => x.Name).ToList();
         }
 
 

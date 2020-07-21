@@ -12,7 +12,7 @@ namespace SodaMachine
         public Quarter()
         {
             value = .25;
-            Name = "Quarter";
+            Name = "quarter";
         }
     }
 }
