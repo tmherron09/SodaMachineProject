@@ -58,11 +58,70 @@ namespace SodaMachine
 
         public void UseSodaMachine(SodaMachine sodaMachine)
         {
-            string sodaChoice = UserInterface.AskForSodaSelection(sodaMachine.sodaSelection);
+            Can sodaChoice = null;
+            do
+            {
+                sodaChoice = UserInterface.AskForSodaSelection(sodaMachine.sodaSelection);
+            } while (CheckIfCanAfford(sodaChoice.Price));
             
+            List<Coin> insertedCoins = ChoseCoinsToInsert();
+
+            if(InsertedCoinsAccepted(sodaMachine))
+            {
+
+
+            }
 
         }
 
+        private bool CheckIfCanAfford(double price)
+        {
+            throw new NotImplementedException();
+        }
+        private bool CheckIfCanAfford(string priceAsString)
+        {
+            double price = Convert.ToDouble(priceAsString);
+
+
+            throw new NotImplementedException();
+        }
+
+
+        private List<Coin> ChoseCoinsToInsert()
+        {
+            bool hasEnoughCoins = false;
+            int[] countOfCoins = wallet.CountOfCounts();
+            do
+            {
+                List<Coin> coinChoices = new List<Coin>();
+
+                int numberOfQuarters = UserInterface.AskForCoinAmount("quarters", sodaChoice);
+                int numberOfDimes = UserInterface.AskForCoinAmount("dimes", wallet);
+                int numberOfNickels = UserInterface.AskForCoinAmount("nickels", wallet);
+                int numberOfPennies = UserInterface.AskForCoinAmount("pennies", wallet);
+
+                for (int i = 0; i < numberOfQuarters; i++)
+                {
+                    coinChoices.Add(new Quarter());
+                }
+                for (int i = 0; i < numberOfDimes; i++)
+                {
+                    coinChoices.Add(new Dime());
+                }
+                for (int i = 0; i < numberOfNickels; i++)
+                {
+                    coinChoices.Add(new Nickel());
+                }
+                for (int i = 0; i < numberOfPennies; i++)
+                {
+                    coinChoices.Add(new Penny());
+                }
+                hasEnoughCoins = wallet.HasCoins();
+
+            } while (hasEnoughCoins);
+
+            return ;
+        }
 
     }
 }

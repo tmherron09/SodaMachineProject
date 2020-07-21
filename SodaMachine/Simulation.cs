@@ -72,7 +72,7 @@ namespace SodaMachine
                 //    // Give coins back to Customer, who puts it in wallet.
                 //    // Display Invalid XYZ
                 //}
-            } while (UserInterface.GetUserInputYesNo("Would you like to buy a soda?")); // While customer still using soda machine.
+            } while (UserInterface.GetUserInputYesNo("Would you like to buy another soda?", true)); // While customer still using soda machine.
         }
 
 

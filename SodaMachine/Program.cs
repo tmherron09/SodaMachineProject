@@ -10,7 +10,6 @@ namespace SodaMachine
     {
         static void Main(string[] args)
         {
-            TestCodeSaved.TestUserSodaSelection();
             Console.ReadLine();
         }
     }
