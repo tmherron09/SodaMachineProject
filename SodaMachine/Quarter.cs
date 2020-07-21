@@ -8,5 +8,11 @@ namespace SodaMachine
 {
     class Quarter
     {
+        private double value = .25;
+        private string name = "quarter";
+        public Quarter()
+        {
+
+        }
     }
 }
