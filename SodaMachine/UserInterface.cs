@@ -44,11 +44,21 @@ namespace SodaMachine
                 }
             }
         }
-        public static void DisplayList(string[] textLines)
+        public static void DisplayList(string[] textLines, bool hasNewLineEscapeCharacter)
         {
-            foreach(string text in textLines)
+            if (hasNewLineEscapeCharacter)
             {
-                Console.Write(text);
+                foreach (string text in textLines)
+                {
+                    Console.Write(text);
+                }
+            }
+            else
+            {
+                foreach (string text in textLines)
+                {
+                    Console.WriteLine(text);
+                }
             }
         }
 
@@ -81,7 +91,54 @@ namespace SodaMachine
             }
             // Display contents
             string[] coinList = new string[] { $"Quarters: {numberOfQuarters}\n", $"Dimes: {numberOfDimes}\n", $"Nickels: {numberOfNickels}\n", $"Pennies: {numberOfPennies}\n" };
+            DisplayList(coinList, true);
         }
+
+
+
+        public static void DisplayListOfCoins(List<Coin> coins, string firstLineText, string lineTextModifier)
+        {
+            int numberOfQuarters = 0;
+            int numberOfDimes = 0;
+            int numberOfNickels = 0;
+            int numberOfPennies = 0;
+
+            foreach (Coin coin in coins)
+            {
+                switch (coin.name)
+                {
+                    case "quarter":
+                        numberOfQuarters++;
+                        break;
+                    case "dime":
+                        numberOfDimes++;
+                        break;
+
+                    case "nickel":
+                        numberOfNickels++;
+                        break;
+                    case "penny":
+                        numberOfPennies++;
+                        break;
+                }
+            }
+            // Display contents
+            // Change from singular to plural. Zero will use the plural form given English something rule. 0 coins, not 0 coin.
+            string[] coinList = new string[] 
+            { 
+                $"{firstLineText}\n",
+                $"{lineTextModifier} {numberOfQuarters} {(numberOfQuarters == 1 ? "quarter": "quarters" )}.\n",
+                $"{lineTextModifier} {numberOfDimes} {(numberOfDimes == 1 ? "dime": "dimes" )}.\n",
+                $"{lineTextModifier} {numberOfNickels} {(numberOfNickels == 1 ? "nickel": "nickels" )}.\n",
+                $"{lineTextModifier} {numberOfPennies} {(numberOfPennies == 1 ? "penny": "pennies" )}.\n",
+            };
+            DisplayList(coinList, true);
+        }
+
+
+
+
+
         // Display for specific Objects
         public static void DisplayContentsOfCustomerWallet(Customer customer)
         {
