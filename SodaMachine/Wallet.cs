@@ -8,10 +8,17 @@ namespace SodaMachine
 {
     class Wallet
     {
-        private List<Coin> coins;
+        public List<Coin> coins;
 
-        private double totalAmount;
-        public double TotalAmount { get { return totalAmount; } private set {totalAmount = value; } }
+        private double totalAmount;  // Do I still need a private field? Is this a good way to have a dynamic variable?
+        public double TotalAmount 
+        { 
+            get 
+            {
+                this.totalAmount = CoinCalculator.GetValueOfCoins(coins);
+                return this.totalAmount; 
+            } 
+        }
         public Wallet()
         {
             coins = new List<Coin>();
@@ -44,18 +51,12 @@ namespace SodaMachine
         // Wallet can have coins added.
         
         // Return a copy of the List
-        public List<Coin> GetCoinList()
-        {
-            OrganizeCoinsInWallet();
-            List<Coin> coinsToReturn = coins;
-            return coinsToReturn;
-        }
+        
 
-        public void CalculateTotalAmount()
+        public double CalculateTotalAmount()
         {
             // Loop over each coin, tally values, set into TotalAmount/totalAmount.
-
-            throw new NotImplementedException();
+            return CoinCalculator.GetValueOfCoins(coins);            
         }
 
         public void AddCoins(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies)
@@ -133,6 +134,18 @@ namespace SodaMachine
         {
             coins = coins.OrderBy(x => x.name).ToList();
         }
+
+
+
+        #region Depreciated/ Refactored
+
+        public List<Coin> GetCoinList()
+        {
+            OrganizeCoinsInWallet();
+            List<Coin> coinsToReturn = coins;
+            return coinsToReturn;
+        } 
+        #endregion
 
 
     }
