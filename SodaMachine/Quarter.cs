@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
-    class Quarter
+    class Quarter : Coin
     {
-        private double value = .25;
-        private string name = "quarter";
+        
         public Quarter()
         {
-
+            value = .25;
+            Name = "Quarter";
         }
     }
 }

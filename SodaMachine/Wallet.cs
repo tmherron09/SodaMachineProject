@@ -8,5 +8,71 @@ namespace SodaMachine
 {
     class Wallet
     {
+        public List<Coin> coins;
+        public Wallet()
+        {
+            coins = new List<Coin>();
+        }
+        public Wallet(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies)
+        {
+            coins = new List<Coin>();
+            for(int i = 0; i <numberOfQuarters; i++)
+            {
+                coins.Add(new Quarter());
+            }
+            for (int i = 0; i < numberOfDimes; i++)
+            {
+                coins.Add(new Dime());
+            }
+            for (int i = 0; i < numberOfNickels; i++)
+            {
+                coins.Add(new Nickel());
+            }
+            for (int i = 0; i < numberOfPennies; i++)
+            {
+                coins.Add(new Penny());
+            }
+        }
+
+        // Wallet can be initialized with coins.
+        // Wallet can be intialized with no coins
+        // Wallet can report how many coins it has.
+        // Wallet can have coins removed.
+        // Wallet can have coins added.
+        
+
+        public void AddCoins(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies)
+        {
+            for (int i = 0; i < numberOfQuarters; i++)
+            {
+                coins.Add(new Quarter());
+            }
+            for (int i = 0; i < numberOfDimes; i++)
+            {
+                coins.Add(new Dime());
+            }
+            for (int i = 0; i < numberOfNickels; i++)
+            {
+                coins.Add(new Nickel());
+            }
+            for (int i = 0; i < numberOfPennies; i++)
+            {
+                coins.Add(new Penny());
+            }
+        }
+
+        // Refactor into One for loop.
+        public void AddCoins(string coinName, int numberOfCoins)
+        {
+            if(coinName == "Quarter")
+            {
+                for (int i = 0; i < numberOfCoins; i++)
+                {
+                    coins.Add(new Quarter());
+                }
+            }
+        }
+
+
     }
 }

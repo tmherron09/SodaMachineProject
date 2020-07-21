@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
-    class Nickle : Coin
+    class Nickel : Coin
     {
-        public Nickle()
+        public Nickel()
         {
             value = .05;
             Name = "nickle";
