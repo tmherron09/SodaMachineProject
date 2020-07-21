@@ -58,20 +58,20 @@ namespace SodaMachine
 
 
 
-                if (sodaMachine.CheckTransAction(sodaChoice, customerCoinsToInput))
-                {
-                    // Remove coins from Customer Wallet
-                    // Add coins to Soda Machine
-                    // Remove Soda from Soda Machine
-                    // Put Soda into Customer Backpack
+                //if (sodaMachine.CheckTransAction(sodaChoice, customerCoinsToInput))
+                //{
+                //    // Remove coins from Customer Wallet
+                //    // Add coins to Soda Machine
+                //    // Remove Soda from Soda Machine
+                //    // Put Soda into Customer Backpack
 
-                    // Ask if user would like another soda?
-                }
-                else
-                {
-                    // Give coins back to Customer, who puts it in wallet.
-                    // Display Invalid XYZ
-                }
+                //    // Ask if user would like another soda?
+                //}
+                //else
+                //{
+                //    // Give coins back to Customer, who puts it in wallet.
+                //    // Display Invalid XYZ
+                //}
             } while (UserInterface.GetUserInputYesNo("Would you like to buy a soda?")); // While customer still using soda machine.
         }
 

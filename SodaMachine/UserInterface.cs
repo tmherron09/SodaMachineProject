@@ -31,16 +31,16 @@ namespace SodaMachine
         }
         public static void DisplayList(List<Can> cans)
         {
-            List<string> names = new List<string>();
+            List<string> lineText = new List<string>();
             int counter = 0;
             Console.WriteLine("This Soda Machine offers: ");
             for (int i = 0; i < cans.Count; i++)
             {
-                if (!names.Contains(cans[i].Name))
+                if (!lineText.Contains(cans[i].Name))
                 {
                     counter++;
-                    names.Add($"{cans[i].Name,10}${cans[i].Price:#0.00}");
-                    Console.WriteLine($"{counter}) {cans[i].Name}");
+                    lineText.Add(cans[i].Name);
+                    Console.WriteLine($"{counter + 1}) {cans[i].Name}");
                 }
             }
         }
@@ -168,10 +168,48 @@ namespace SodaMachine
             }
             // Display contents
         }
-        public static string AskForSodaSelection()
+        
+        /// <summary>
+        /// Asks the user for their selection. Once selected it displays the cost and asks for verification. If the change their mind the loop will start over.
+        /// </summary>
+        /// <returns>The name of the soda.</returns>
+        public static string AskForSodaSelection(List<Can> sodaSelection)
         {
-
-            throw new NotImplementedException();
+            string sodaChoice;
+            bool decided = false; // Runs the loops.
+            Console.WriteLine("The Soda Machine glows in front of you, before a cold beverage awaits!");
+            do
+            {
+                
+                Console.WriteLine("Which soda would you like to purchase today?");
+                
+                for (int i = 0; i < sodaSelection.Count; i++)
+                {
+                    Console.WriteLine($"{i+ 1}) {sodaSelection[i].Name}");
+                }
+                bool valid = false;
+                sodaChoice = Console.ReadLine();
+                for(int i = 0; i < sodaSelection.Count; i++)
+                {
+                    if (sodaChoice == $"{i + 1}" || sodaChoice.ToLower() == sodaSelection[i].Name.ToLower())
+                    {
+                        valid = true;
+                        sodaChoice = sodaSelection[i].Name;
+                        if (GetUserInputYesNo($"{sodaSelection[i].Name} is ${sodaSelection[i].Price:#.00}. Are you sure? (Y/N)", false))
+                        {
+                            decided = true;
+                        }
+                    }
+                }
+                if(!valid)
+                {
+                    Console.WriteLine("Invalid selection, try again. Press any key to continue...");
+                    Console.ReadKey(true);
+                    Console.Clear();
+                    continue;
+                }
+            } while (!decided);
+            return sodaChoice;
         }
 
 
@@ -186,14 +224,15 @@ namespace SodaMachine
         // Get user input methods, YES/NO, Multiple Choice
 
 
-        public static bool GetUserInputYesNo(string message)
+        public static bool GetUserInputYesNo(string message, bool clearScreen)
         {
-            Console.WriteLine(message);
-
             string userChoice;
             while (true)
             {
-                Console.Clear();
+                if (clearScreen)
+                {
+                    Console.Clear();
+                }
                 Console.Write(message);
                 userChoice = Console.ReadLine().ToLower();
                 if (userChoice == "y" || userChoice == "yes")
@@ -206,6 +245,7 @@ namespace SodaMachine
                 }
             }
         }
+
 
 
 

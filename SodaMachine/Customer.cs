@@ -58,7 +58,7 @@ namespace SodaMachine
 
         public void UseSodaMachine(SodaMachine sodaMachine)
         {
-            string sodaName = UserInterface.AskForSodaSelection();
+            string sodaChoice = UserInterface.AskForSodaSelection(sodaMachine.sodaSelection);
             
 
         }

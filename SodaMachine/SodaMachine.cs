@@ -10,6 +10,7 @@ namespace SodaMachine
     {
         public List<Coin> register;
         public List<Can> inventory;
+        public List<Can> sodaSelection; // All the sodas displayed on the machine for sale.
 
         // On construct define starting coins
         public SodaMachine()
