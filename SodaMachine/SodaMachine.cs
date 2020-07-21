@@ -37,6 +37,7 @@ namespace SodaMachine
             {
                 register.Add(new Penny());
             }
+            
         }
         public SodaMachine(int numberOfCola, int numberOfOrangeSoda, int numberOfRootBeet)
         {
@@ -115,6 +116,14 @@ namespace SodaMachine
         public Can DispenseSodaCan(Can soda)
         {
             throw new NotImplementedException();
+        }
+        private void OrganizeInventory()
+        {
+            inventory= inventory.OrderBy(x => x.Name).ToList();
+        }
+        private void OrganizeRegister()
+        {
+            register = register.OrderBy(x => x.Name).ToList();
         }
     }
 }

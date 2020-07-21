@@ -8,9 +8,9 @@ namespace SodaMachine
 {
     abstract class Coin
     {
-        protected double value;
+        private double value;
         private string name;
-        public double Value { get { return value; } }
+        public double Value { get { return value; } protected set { this.value = value; } }
         public string Name { get { return name; } protected set { this.name = value; } }
         
 

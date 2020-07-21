@@ -8,5 +8,12 @@ namespace SodaMachine
 {
     abstract class Can
     {
+        private double price;
+        private string name;
+        public double Price { get { return price; } protected set { this.price = value; } }
+        public string Name { get { return name; } protected set { this.name = value; } }
+
+
+
     }
 }
