@@ -130,7 +130,7 @@ namespace SodaMachine
             {
                 AcceptPayment(insertedCoins);
                 Can dispensedSoda = DispenseSodaCan(sodaChoice);
-
+                
                 return true;
             }
             return false;
@@ -168,6 +168,12 @@ namespace SodaMachine
         }
         public bool CanGiveChange(double requriedChange)
         {
+            if(requriedChange == 0)
+            {
+                return true;
+            }
+            // Set highest coins first in register
+            OrganizeRegister();
             double changeValue = 0;
             foreach(Coin coin in register)
             {
@@ -191,7 +197,8 @@ namespace SodaMachine
         public void AcceptPayment(List<Coin> insertedCoins)
         {
             // Add coins
-            register.InsertRange(-1, insertedCoins);
+            register.InsertRange(0, insertedCoins);
+            OrganizeRegister(); // Reorder register with highest value coins first
         }
         public List<Can> SodaOfferings()
         {
@@ -220,7 +227,7 @@ namespace SodaMachine
         }
         private void OrganizeRegister()
         {
-            register = register.OrderBy(x => x.name).ToList();
+            register = register.OrderBy(x => x.Value).ToList();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace SodaMachine
     {
         static void Main(string[] args)
         {
-            TestCodeSaved.TestWalletCoinRemoval();
+            TestCodeSaved.TestSodaMachineBuySoda();
             Console.ReadLine();
         }
     }
