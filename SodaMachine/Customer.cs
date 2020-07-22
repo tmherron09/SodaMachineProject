@@ -48,7 +48,8 @@ namespace SodaMachine
                 sodaChoice = UserInterface.AskForSodaSelection(sodaMachine.sodaSelection);
             } while (!CheckIfCanAfford(sodaChoice.Price));
             List<Coin> insertedCoins = ChoseCoinsToInsert();
-            return sodaMachine.Transaction(this, sodaChoice, insertedCoins);
+            double changeAmount = CoinCalculator.GetValueOfCoins(insertedCoins);
+            return sodaMachine.Transaction(this, sodaChoice, insertedCoins, ref changeAmount);
         }
 
 
@@ -96,7 +97,10 @@ namespace SodaMachine
         }
         public void RecieveChange(List<Coin> change)
         {
-            wallet.AddCoins(change);
+            if (change != null)
+            {
+                wallet.AddCoins(change);
+            }
         }
         
 

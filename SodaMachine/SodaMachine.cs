@@ -142,6 +142,25 @@ namespace SodaMachine
                 customer.RecieveChange(DispenseChange(requiredChange));
                 return true;
             }
+            
+            UserInterface.DisplayList("Please grab your change.", true, true, true);
+            DispenseChange(CoinCalculator.GetValueOfCoins(insertedCoins), customer);
+            return false;
+        }
+        public bool Transaction(Customer customer, Can sodaChoice, List<Coin> insertedCoins, ref double changeAmount)
+        {
+            if (CheckTransAction(sodaChoice, insertedCoins))
+            {
+                AcceptPayment(insertedCoins);
+                Can dispensedSoda = DispenseSodaCan(sodaChoice);
+                customer.backpack.AddCan(dispensedSoda);
+                changeAmount = Math.Round(changeAmount - sodaChoice.Price, 2);
+                DispenseChange(changeAmount, customer);
+                return true;
+            }
+
+            UserInterface.DisplayList("Please grab your change.", true, true, true);
+            DispenseChange(CoinCalculator.GetValueOfCoins(insertedCoins), customer);
             return false;
         }
 
@@ -175,12 +194,11 @@ namespace SodaMachine
                 {
                     return true;
                 }
-                UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.");
+                UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.",true,true);
                 return false;
             }
-            Console.WriteLine("We're sorry, but the amount you entered is not enough.");
+            UserInterface.DisplayList("We're sorry, but the amount you entered is not enough.",true,true);
             return false;
-
         }
         
         // Payment/Change Methods
@@ -216,25 +234,24 @@ namespace SodaMachine
             register.InsertRange(0, insertedCoins);
             Coin.OrderByValue(ref register); // Reorder register with highest value coins first
         }
-        public List<Coin> DispenseChange(double requiredChange)
+        public List<Coin> DispenseChange(double amountToDispense)
         {
-            List<Coin> change = new List<Coin>();
-
-            if (requiredChange == 0)
+            if (amountToDispense == 0)
             {
-                return change;
+                return null;
             }
+            List<Coin> change = new List<Coin>();
             // Set highest coins first in register
             Coin.OrderByValue(ref register);
             double changeValue = 0;
             foreach (Coin coin in register)
             {
-                if (Math.Round(changeValue + coin.Value,2) == requiredChange)
+                if (Math.Round(changeValue + coin.Value,2) == amountToDispense)
                 {
                     change.Add(coin);
                     break;
                 }
-                else if (changeValue + coin.Value < requiredChange)
+                else if (changeValue + coin.Value < amountToDispense)
                 {
                     changeValue += coin.Value;
                     change.Add(coin);
@@ -246,6 +263,36 @@ namespace SodaMachine
                 register.RemoveAt(index);
             }
             return change;
+        }
+        public void DispenseChange(double amountToDispense, Customer customer)
+        {
+            if (amountToDispense == 0)
+            {
+                return;
+            }
+            List<Coin> change = new List<Coin>();
+            // Set highest coins first in register
+            Coin.OrderByValue(ref register);
+            double changeValue = 0;
+            foreach (Coin coin in register)
+            {
+                if (Math.Round(changeValue + coin.Value, 2) == amountToDispense)
+                {
+                    change.Add(coin);
+                    break;
+                }
+                else if (changeValue + coin.Value < amountToDispense)
+                {
+                    changeValue += coin.Value;
+                    change.Add(coin);
+                }
+            }
+            foreach (Coin coin in change)
+            {
+                int index = register.FindIndex(x => x.name == coin.name);
+                register.RemoveAt(index);
+            }
+            customer.RecieveChange(change);
         }
 
 
