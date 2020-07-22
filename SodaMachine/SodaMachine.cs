@@ -133,8 +133,6 @@ namespace SodaMachine
                 customer.backpack.AddCan(dispensedSoda);
                 double requiredChange = CaluclateChange(insertedCoins, sodaChoice);
                 customer.RecieveChange(DispenseChange(requiredChange));
-
-
                 return true;
             }
             return false;

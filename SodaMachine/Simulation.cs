@@ -10,14 +10,32 @@ namespace SodaMachine
     {
         SodaMachine sodaMachine;
         Customer customer;
-
-        // Simulation variables
         
-
+        /// <summary>
+        /// Create new isntance of Simulation with Empty Customer and Soda Machine
+        /// </summary>
         public Simulation()
         {
             customer = new Customer();
             sodaMachine = new SodaMachine();
+        }
+        /// <summary>
+        /// Create new instance of Simulation with default user stories values
+        /// </summary>
+        /// <param name="userstoriesDefaults">True: Set to user stories defaults</param>
+        public Simulation(bool userstoriesDefaults)
+        {
+            if (userstoriesDefaults)
+            {
+                customer = new Customer(true);
+                // Creates a new SodaMachine with the default user stories values
+                sodaMachine = new SodaMachine(20, 10, 20, 50, 5, 5, 5);
+            }
+            else
+            {
+                customer = new Customer();
+                sodaMachine = new SodaMachine();
+            }
         }
 
 
@@ -80,7 +98,7 @@ namespace SodaMachine
 
 
 
-        #region Initialization Methods
+        #region Initialization Methods for Non-User stories
         /* Initialization Methods */
         private void InitializeSimuation()
         {

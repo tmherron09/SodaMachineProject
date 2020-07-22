@@ -10,7 +10,8 @@ namespace SodaMachine
     {
         static void Main(string[] args)
         {
-            TestCodeSaved.TestSodaMachineBuySoda();
+            Simulation simulation = new Simulation(true);
+            simulation.RunSimulation();
             Console.ReadLine();
         }
     }

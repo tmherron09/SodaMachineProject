@@ -17,6 +17,24 @@ namespace SodaMachine
             // define number of coins in wall.
             backpack = new Backpack();
         }
+        /// <summary>
+        /// Makes new customer instance with default user stories values
+        /// </summary>
+        /// <param name="userstoriesDefaults">True: Set to user stories defaults</param>
+        public Customer(bool userstoriesDefaults)
+        {
+            if (userstoriesDefaults)
+            {
+                wallet = new Wallet();
+                backpack = new Backpack();
+                wallet.AddCoins(8, 15, 25, 50);
+            }
+            else
+            {
+                wallet = new Wallet();
+                backpack = new Backpack();
+            }
+        }
 
         // Customer can give its wallets contents.
         // Customer can check contents of Backpack.
