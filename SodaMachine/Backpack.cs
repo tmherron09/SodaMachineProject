@@ -9,7 +9,7 @@ namespace SodaMachine
 {
     public class Backpack
     {
-        public List<Can> cans { get; private set; }
+        public List<Can> cans;
 
         public Backpack()
         {
@@ -22,7 +22,6 @@ namespace SodaMachine
         public void AddCan(Can soda)
         {
             cans.Add(soda);
-            throw new NotImplementedException();
         }
         public void ReportContents()
         {

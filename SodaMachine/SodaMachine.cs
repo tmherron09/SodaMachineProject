@@ -126,38 +126,46 @@ namespace SodaMachine
 
         public bool Transaction(Customer customer, Can sodaChoice, List<Coin> insertedCoins)
         {
-            if(CheckTransAction(sodaChoice, insertedCoins))
+            if (CheckTransAction(sodaChoice, insertedCoins))
             {
                 AcceptPayment(insertedCoins);
                 Can dispensedSoda = DispenseSodaCan(sodaChoice);
-                
+                customer.backpack.AddCan(dispensedSoda);
+                double requiredChange = CaluclateChange(insertedCoins, sodaChoice);
+                customer.RecieveChange(DispenseChange(requiredChange));
+
                 return true;
             }
             return false;
         }
 
-        public bool CheckTransAction(Can soda, List<Coin> customerCoins)
+        public bool CheckTransAction(Can sodaChoice, List<Coin> insertedCoins)
         {
-            if (CheckInventoryForSoda(soda))
+            if (CheckInventoryForSoda(sodaChoice))
             {
-                if (CheckIfEnoughMoney(soda, customerCoins))
+                if (CheckValidMoneyExchange(sodaChoice, insertedCoins))
                 {
-                    double requiredChange = CaluclateChange(customerCoins, soda);
-                    if (CanGiveChange(requiredChange))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
+                return false;
             }
+            UserInterface.DisplayList("OUT OF STOCK");
             return false;
         }
 
-        public bool CheckIfEnoughMoney(Can soda, List<Coin> customerCoins)
+        public bool CheckValidMoneyExchange(Can soda, List<Coin> customerCoins)
         {
-            if(CoinCalculator.GetValueOfCoins(customerCoins) > soda.Price)
-            { 
-                return true; 
+            if (CoinCalculator.GetValueOfCoins(customerCoins) > soda.Price)
+            {
+                double requiredChange = CaluclateChange(customerCoins, soda);
+                if (CanGiveChange(requiredChange))
+                {
+                    return true;
+                }
+                UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.");
+                return false;
             }
+            Console.WriteLine("We're sorry, but the amount you entered is not enough.");
             return false;
 
         }
@@ -168,20 +176,20 @@ namespace SodaMachine
         }
         public bool CanGiveChange(double requriedChange)
         {
-            if(requriedChange == 0)
+            if (requriedChange == 0)
             {
                 return true;
             }
             // Set highest coins first in register
             OrganizeRegister();
             double changeValue = 0;
-            foreach(Coin coin in register)
+            foreach (Coin coin in register)
             {
-                if(changeValue + coin.Value == requriedChange)
+                if (changeValue + coin.Value == requriedChange)
                 {
                     return true;
                 }
-                else if( changeValue + coin.Value < requriedChange)
+                else if (changeValue + coin.Value < requriedChange)
                 {
                     changeValue += coin.Value;
                 }
@@ -220,6 +228,12 @@ namespace SodaMachine
                 default:
                     throw new Exception();
             }
+        }
+        public List<Coin> DispenseChange(double requiredChange)
+        {
+
+
+
         }
         private void OrganizeInventory()
         {
