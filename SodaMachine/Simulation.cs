@@ -58,39 +58,23 @@ namespace SodaMachine
         public void RunSimulation()
         {
             //Call Initialization
-            InitializeSimuation();
+            //InitializeSimuation();
 
-            do
+            bool isBuyingSoda = true;
+
+            while(isBuyingSoda)
             {
-                // Display Soda Machine Welcome Message
-                
+                // Display a welcome message.
+                bool hasPurchasedSoda = customer.UseSodaMachine(sodaMachine);
+                if (!hasPurchasedSoda && !UserInterface.GetUserInputYesNo("We're sorry, would you like to try again?", true))
+                {
+                    break;
+                }
 
-                // DisplaySodaOfferings();
-                // Ask for user input. 
-                // Check Wallet if Customer has enough money.
+                isBuyingSoda = UserInterface.GetUserInputYesNo("Would you like to buy another soda?", true); // While customer still using soda machine.
 
-                // Ask for what coins they would like to input.
-                // Compare list of coins to wallet contents.
-                // If match, send to machine with soda choice
-                
-
-
-
-                //if (sodaMachine.CheckTransAction(sodaChoice, customerCoinsToInput))
-                //{
-                //    // Remove coins from Customer Wallet
-                //    // Add coins to Soda Machine
-                //    // Remove Soda from Soda Machine
-                //    // Put Soda into Customer Backpack
-
-                //    // Ask if user would like another soda?
-                //}
-                //else
-                //{
-                //    // Give coins back to Customer, who puts it in wallet.
-                //    // Display Invalid XYZ
-                //}
-            } while (UserInterface.GetUserInputYesNo("Would you like to buy another soda?", true)); // While customer still using soda machine.
+            }
+            // Display Thank You
         }
 
 

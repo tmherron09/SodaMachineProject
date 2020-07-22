@@ -10,7 +10,8 @@ namespace SodaMachine
     {
         public List<Coin> coins;
 
-        private double totalAmount;  // Do I still need a private field? Is this a good way to have a dynamic variable?
+        // Is this a bad use of making a variable dynamic?
+        private double totalAmount;
         public double TotalAmount
         {
             get
@@ -19,6 +20,8 @@ namespace SodaMachine
                 return this.totalAmount;
             }
         }
+        
+        
         public Wallet()
         {
             coins = new List<Coin>();

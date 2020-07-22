@@ -123,7 +123,14 @@ namespace SodaMachine
         // Calculate if enough coins can be returned.
         // If enough coins inserted and enough change, dispense soda and subtract from inventory
         // Give change and subtract from register.
-
+        
+        /// <summary>
+        /// Main method for processing a transaction on the Soda Machine. It takes a customer, their soda choice and their insert coins. It first validats if the machine can process the transactions. If valid, it will accept and add the coins. Dispense a soda to the customer class and return change if required.
+        /// </summary>
+        /// <param name="customer">Customer using the Soda Machine</param>
+        /// <param name="sodaChoice">A reference to the chosen soda.</param>
+        /// <param name="insertedCoins">The list of coins inserted by the customer."</param>
+        /// <returns></returns>
         public bool Transaction(Customer customer, Can sodaChoice, List<Coin> insertedCoins)
         {
             if (CheckTransAction(sodaChoice, insertedCoins))
@@ -138,6 +145,8 @@ namespace SodaMachine
             return false;
         }
 
+
+        // Validation stage
         public bool CheckTransAction(Can sodaChoice, List<Coin> insertedCoins)
         {
             if (CheckInventoryForSoda(sodaChoice))
@@ -151,7 +160,12 @@ namespace SodaMachine
             UserInterface.DisplayList("OUT OF STOCK");
             return false;
         }
+        public bool CheckInventoryForSoda(Can soda)
+        {
+            // Check if any matching sodas.
 
+            return inventory.Exists(x => x.Name == soda.Name);
+        }
         public bool CheckValidMoneyExchange(Can soda, List<Coin> customerCoins)
         {
             if (CoinCalculator.GetValueOfCoins(customerCoins) > soda.Price)
@@ -168,6 +182,8 @@ namespace SodaMachine
             return false;
 
         }
+        
+        // Payment/Change Methods
         public double CaluclateChange(List<Coin> customerCoins, Can soda)
         {
             return CoinCalculator.GetValueOfCoins(customerCoins) - soda.Price;
@@ -194,38 +210,11 @@ namespace SodaMachine
             }
             return false;
         }
-        public bool CheckInventoryForSoda(Can soda)
-        {
-            // Check if any matching sodas.
-
-            return inventory.Exists(x => x.Name == soda.Name);
-        }
         public void AcceptPayment(List<Coin> insertedCoins)
         {
             // Add coins
             register.InsertRange(0, insertedCoins);
             OrganizeRegister(); // Reorder register with highest value coins first
-        }
-        public List<Can> SodaOfferings()
-        {
-            List<Can> sodas = inventory;
-            return sodas;
-        }
-        public Can DispenseSodaCan(Can soda)
-        {
-            int index = inventory.FindIndex(x => x.name == soda.name);
-            inventory.RemoveAt(index);
-            switch (soda.Name)
-            {
-                case "Root Beer":
-                    return new RootBeer();
-                case "Cola":
-                    return new Cola();
-                case "Orange Soda":
-                    return new OrangeSoda();
-                default:
-                    throw new Exception();
-            }
         }
         public List<Coin> DispenseChange(double requiredChange)
         {
@@ -251,13 +240,35 @@ namespace SodaMachine
                     change.Add(coin);
                 }
             }
-            foreach(Coin coin in change)
+            foreach (Coin coin in change)
             {
                 int index = register.FindIndex(x => x.name == coin.name);
                 register.RemoveAt(index);
             }
             return change;
         }
+
+
+        // Soda Can Methods
+        public Can DispenseSodaCan(Can soda)
+        {
+            int index = inventory.FindIndex(x => x.name == soda.name);
+            inventory.RemoveAt(index);
+            switch (soda.Name)
+            {
+                case "Root Beer":
+                    return new RootBeer();
+                case "Cola":
+                    return new Cola();
+                case "Orange Soda":
+                    return new OrangeSoda();
+                default:
+                    throw new Exception();
+            }
+        }
+        
+        
+        // Utility Methods
         private void OrganizeInventory()
         {
             inventory = inventory.OrderBy(x => x.Name).ToList();

@@ -201,35 +201,6 @@ namespace SodaMachine
 
 
         // Display for specific Objects
-        public static void DisplayContentsOfCustomerWallet(Customer customer)
-        {
-            int numberOfQuarters = 0;
-            int numberOfDimes = 0;
-            int numberOfNickels = 0;
-            int numberOfPennies = 0;
-            List<Coin> coins = customer.CheckCustomerWalletContents();
-            foreach (Coin coin in coins)
-            {
-                switch (coin.name)
-                {
-                    case "quarter":
-                        numberOfQuarters++;
-                        break;
-                    case "dime":
-                        numberOfDimes++;
-                        break;
-
-                    case "nickel":
-                        numberOfNickels++;
-                        break;
-                    case "penny":
-                        numberOfPennies++;
-                        break;
-                }
-            }
-            // Display contents
-        }
-        
         /// <summary>
         /// Asks the user for their selection. Once selected it displays the cost and asks for verification. If the change their mind the loop will start over.
         /// </summary>
@@ -316,6 +287,39 @@ namespace SodaMachine
 
 
 
+        #region Unused/ Depreciated
 
+
+        public static void DisplayContentsOfCustomerWallet(Customer customer)
+        {
+            int numberOfQuarters = 0;
+            int numberOfDimes = 0;
+            int numberOfNickels = 0;
+            int numberOfPennies = 0;
+            List<Coin> coins = customer.CheckCustomerWalletContents();
+            foreach (Coin coin in coins)
+            {
+                switch (coin.name)
+                {
+                    case "quarter":
+                        numberOfQuarters++;
+                        break;
+                    case "dime":
+                        numberOfDimes++;
+                        break;
+
+                    case "nickel":
+                        numberOfNickels++;
+                        break;
+                    case "penny":
+                        numberOfPennies++;
+                        break;
+                }
+            }
+            // Display contents
+        }
+
+
+        #endregion
     }
 }

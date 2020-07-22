@@ -11,10 +11,13 @@ namespace SodaMachine
         public Wallet wallet;
         public Backpack backpack;
 
+
+        /// <summary>
+        /// Makes new customer instance with empty wallet and backpack.
+        /// </summary>
         public Customer()
         {
             wallet = new Wallet();
-            // define number of coins in wall.
             backpack = new Backpack();
         }
         /// <summary>
@@ -36,75 +39,18 @@ namespace SodaMachine
             }
         }
 
-        // Customer can give its wallets contents.
-        // Customer can check contents of Backpack.
-        // Check if price of soda is affordable.
-        // Make a payment, transfer coins out of wallet and into soda machine.
-        // Customer can recieve a soda
-        // Customer can recieve change
 
-
-        public List<Coin> CheckCustomerWalletContents()
-        {
-            return wallet.GetCoinList();  // Returns a copy of the Coin List
-        }
-        public Backpack GetCustomerBackpack()
-        {
-
-            return backpack;
-        }
-        public bool HasEnoughMoney(double price)
-        {
-            throw new NotImplementedException();
-        }
-        public List<Coin> MakePayment(List<Coin> approvedTransaction, SodaMachine sodaMachine, Can soda) // Customer then directly inserts money
-        {
-            // Remove change from wallet.
-            // Call soda machine and insert change.
-            // Recieve soda from machine.
-            // Put soda into backpack.
-            throw new NotImplementedException();
-        }
-        public void RecieveChange(List<Coin> change)
-        {
-            wallet.AddCoins(change);
-        }
-        public void RecieveSoda(Can soda)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UseSodaMachine(SodaMachine sodaMachine)
+        public bool UseSodaMachine(SodaMachine sodaMachine)
         {
             Can sodaChoice = null;
             do
             {
                 sodaChoice = UserInterface.AskForSodaSelection(sodaMachine.sodaSelection);
             } while (CheckIfCanAfford(sodaChoice.Price));
-
             List<Coin> insertedCoins = ChoseCoinsToInsert();
-
-            if (InsertedCoinsAccepted(sodaMachine, sodaChoice, insertedCoins))
-            {
-
-
-            }
-
+            return sodaMachine.Transaction(this, sodaChoice, insertedCoins);
         }
 
-
-
-        private bool CheckIfCanAfford(double price)
-        {
-            throw new NotImplementedException();
-        }
-        private bool CheckIfCanAfford(string priceAsString)
-        {
-            double price = Convert.ToDouble(priceAsString);
-
-
-            throw new NotImplementedException();
-        }
 
 
 
@@ -141,15 +87,45 @@ namespace SodaMachine
             return coinChoices;
         }
 
-        private bool InsertedCoinsAccepted(SodaMachine sodaMachine, Can sodaChoice, List<Coin> insertedCoins)
+
+
+        public bool CheckIfCanAfford(double price)
         {
-            if(sodaMachine.Transaction(this, sodaChoice, insertedCoins))
+            if (wallet.TotalAmount > price)
             {
                 return true;
             }
-
-            throw new NotImplementedException();
+            return false;
         }
+
+        public void RecieveChange(List<Coin> change)
+        {
+            wallet.AddCoins(change);
+        }
+        
+
+
+
+
+
+
+        #region Unused/ Depreciated
+
+        public void RecieveSoda(Can soda)
+        {
+            backpack.AddCan(soda);
+        }
+
+
+        public List<Coin> CheckCustomerWalletContents()
+        {
+            return wallet.GetCoinList();  // Returns a copy of the Coin List
+        }
+
+        #endregion
+
+
+
 
     }
 }
