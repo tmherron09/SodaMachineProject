@@ -186,7 +186,7 @@ namespace SodaMachine
         // Payment/Change Methods
         public double CaluclateChange(List<Coin> customerCoins, Can soda)
         {
-            return CoinCalculator.GetValueOfCoins(customerCoins) - soda.Price;
+            return Math.Round(CoinCalculator.GetValueOfCoins(customerCoins) - soda.Price, 2);
         }
         public bool CanGiveChange(double requiredChange)
         {
@@ -199,7 +199,7 @@ namespace SodaMachine
             double changeValue = 0;
             foreach (Coin coin in register)
             {
-                if (changeValue + coin.Value == requiredChange)
+                if (Math.Round(changeValue + coin.Value, 2) == requiredChange)
                 {
                     return true;
                 }
@@ -229,7 +229,7 @@ namespace SodaMachine
             double changeValue = 0;
             foreach (Coin coin in register)
             {
-                if (changeValue + coin.Value == requiredChange)
+                if (Math.Round(changeValue + coin.Value,2) == requiredChange)
                 {
                     change.Add(coin);
                     break;
@@ -275,7 +275,7 @@ namespace SodaMachine
         }
         private void OrganizeRegister()
         {
-            register = register.OrderBy(x => x.Value).ToList();
+            register = register.OrderByDescending(x => x.Value).ToList();
         }
     }
 }

@@ -46,7 +46,7 @@ namespace SodaMachine
             do
             {
                 sodaChoice = UserInterface.AskForSodaSelection(sodaMachine.sodaSelection);
-            } while (CheckIfCanAfford(sodaChoice.Price));
+            } while (!CheckIfCanAfford(sodaChoice.Price));
             List<Coin> insertedCoins = ChoseCoinsToInsert();
             return sodaMachine.Transaction(this, sodaChoice, insertedCoins);
         }
