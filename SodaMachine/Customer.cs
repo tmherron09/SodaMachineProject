@@ -8,8 +8,8 @@ namespace SodaMachine
 {
     public class Customer
     {
-        private Wallet wallet;
-        private Backpack backpack;
+        public Wallet wallet;
+        public Backpack backpack;
 
         public Customer()
         {
@@ -63,10 +63,10 @@ namespace SodaMachine
             {
                 sodaChoice = UserInterface.AskForSodaSelection(sodaMachine.sodaSelection);
             } while (CheckIfCanAfford(sodaChoice.Price));
-            
+
             List<Coin> insertedCoins = ChoseCoinsToInsert();
 
-            if(InsertedCoinsAccepted(sodaMachine))
+            if (InsertedCoinsAccepted(sodaMachine))
             {
 
 
@@ -74,7 +74,7 @@ namespace SodaMachine
 
         }
 
-        
+
 
         private bool CheckIfCanAfford(double price)
         {
@@ -88,54 +88,39 @@ namespace SodaMachine
             throw new NotImplementedException();
         }
 
-        
 
-        private List<Coin> ChoseCoinsToInsert()
+
+        public List<Coin> ChoseCoinsToInsert()
         {
-            bool hasEnoughCoins = false;
             int[] countOfCoins = wallet.CountOfCoins();
-            do
+            List<Coin> coinChoices = new List<Coin>();
+
+            int numberOfQuarters = UserInterface.AskForCoinAmount("quarters", countOfCoins[0]);
+            int numberOfDimes = UserInterface.AskForCoinAmount("dimes", countOfCoins[1]);
+            int numberOfNickels = UserInterface.AskForCoinAmount("nickels", countOfCoins[2]);
+            int numberOfPennies = UserInterface.AskForCoinAmount("pennies", countOfCoins[3]);
+
+            for (int i = 0; i < numberOfQuarters; i++)
             {
-                List<Coin> coinChoices = new List<Coin>();
-
-                int numberOfQuarters = UserInterface.AskForCoinAmount("quarters", countOfCoins[0]);
-                int numberOfDimes = UserInterface.AskForCoinAmount("dimes", countOfCoins[1]);
-                int numberOfNickels = UserInterface.AskForCoinAmount("nickels", countOfCoins[2]);
-                int numberOfPennies = UserInterface.AskForCoinAmount("pennies", countOfCoins[3]);
-
-                if(numberOfQuarters <= countOfCoins[0] && numberOfDimes <= countOfCoins[1] && numberOfNickels <= countOfCoins[2] && numberOfPennies <= countOfCoins[3])
-                {
-                    hasEnoughCoins = true;
-                }
-                else
-                {
-                    hasEnoughCoins = false;
-                    UserInterface.DisplayList("You do not have that many coins in your wallet.", false, true, true);
-                }
-
-                if (hasEnoughCoins)
-                {
-                    for (int i = 0; i < numberOfQuarters; i++)
-                    {
-                        coinChoices.Add(new Quarter());
-                    }
-                    for (int i = 0; i < numberOfDimes; i++)
-                    {
-                        coinChoices.Add(new Dime());
-                    }
-                    for (int i = 0; i < numberOfNickels; i++)
-                    {
-                        coinChoices.Add(new Nickel());
-                    }
-                    for (int i = 0; i < numberOfPennies; i++)
-                    {
-                        coinChoices.Add(new Penny());
-                    }
-                }
-
-            } while (hasEnoughCoins);
-
-            return ;
+                wallet.RemoveCoin("quarter");
+                coinChoices.Add(new Quarter()); ;
+            }
+            for (int i = 0; i < numberOfDimes; i++)
+            {
+                wallet.RemoveCoin("dime");
+                coinChoices.Add(new Dime()); ;
+            }
+            for (int i = 0; i < numberOfNickels; i++)
+            {
+                wallet.RemoveCoin("nickel");
+                coinChoices.Add(new Nickel()); ;
+            }
+            for (int i = 0; i < numberOfPennies; i++)
+            {
+                wallet.RemoveCoin("penny");
+                coinChoices.Add(new Penny()); ;
+            }
+            return coinChoices;
         }
 
         private bool InsertedCoinsAccepted(SodaMachine sodaMachine)

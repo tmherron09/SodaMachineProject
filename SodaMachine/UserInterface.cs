@@ -102,6 +102,27 @@ namespace SodaMachine
             }
         }
 
+        public static int AskForCoinAmount(string coinName, int amountInWallet)
+        {
+            bool valid = false;
+            int userInput;
+            do
+            {
+                Console.WriteLine($"You have {amountInWallet} {(amountInWallet == 1 ? coinName : coinName + "s")} in your wallet.\nHow many would you like to insert into the soda machine?\n");
+                Console.WriteLine("Amount: ");
+                valid = Int32.TryParse(Console.ReadLine(), out userInput);
+                if(valid)
+                {
+                    if(userInput < 0 || userInput > amountInWallet)
+                    {
+                        DisplayList("You do not have that many coins in your wallet.", false, true, true);
+                        valid = false;
+                        Console.Clear();
+                    }
+                }
+            } while (!valid);
+            return userInput;
+        }
 
         public static void DisplayListOfCoins(List<Coin> coins)
         {

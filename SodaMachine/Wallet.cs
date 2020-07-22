@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
-    class Wallet
+    public class Wallet
     {
         public List<Coin> coins;
 
         private double totalAmount;  // Do I still need a private field? Is this a good way to have a dynamic variable?
-        public double TotalAmount 
-        { 
-            get 
+        public double TotalAmount
+        {
+            get
             {
                 this.totalAmount = CoinCalculator.GetValueOfCoins(coins);
-                return this.totalAmount; 
-            } 
+                return this.totalAmount;
+            }
         }
         public Wallet()
         {
@@ -26,7 +26,7 @@ namespace SodaMachine
         public Wallet(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies)
         {
             coins = new List<Coin>();
-            for(int i = 0; i <numberOfQuarters; i++)
+            for (int i = 0; i < numberOfQuarters; i++)
             {
                 coins.Add(new Quarter());
             }
@@ -49,14 +49,14 @@ namespace SodaMachine
         // Wallet can report how many coins it has.
         // Wallet can have coins removed.
         // Wallet can have coins added.
-        
+
         // Return a copy of the List
-        
+
 
         public double CalculateTotalAmount()
         {
             // Loop over each coin, tally values, set into TotalAmount/totalAmount.
-            return CoinCalculator.GetValueOfCoins(coins);            
+            return CoinCalculator.GetValueOfCoins(coins);
         }
 
         public void AddCoins(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies)
@@ -130,6 +130,12 @@ namespace SodaMachine
             }
             OrganizeCoinsInWallet();
         }
+
+        public void RemoveCoin(string coinName)
+        {
+            int index = coins.FindIndex(x => x.name == coinName);
+            coins.RemoveAt(index);
+        }
         private void OrganizeCoinsInWallet()
         {
             coins = coins.OrderBy(x => x.name).ToList();
@@ -141,7 +147,6 @@ namespace SodaMachine
             int numberOfDimes = 0;
             int numberOfNickels = 0;
             int numberOfPennies = 0;
-            List<Coin> coins = customer.CheckCustomerWalletContents();
             foreach (Coin coin in coins)
             {
                 switch (coin.name)
@@ -171,7 +176,7 @@ namespace SodaMachine
             OrganizeCoinsInWallet();
             List<Coin> coinsToReturn = coins;
             return coinsToReturn;
-        } 
+        }
         #endregion
 
 

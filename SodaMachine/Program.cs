@@ -10,6 +10,7 @@ namespace SodaMachine
     {
         static void Main(string[] args)
         {
+            TestCodeSaved.TestWalletCoinRemoval();
             Console.ReadLine();
         }
     }
