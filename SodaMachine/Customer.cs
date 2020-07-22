@@ -30,7 +30,7 @@ namespace SodaMachine
             {
                 wallet = new Wallet();
                 backpack = new Backpack();
-                wallet.AddCoins(8, 15, 20, 50);
+                wallet.InitializeWalletCoins(8, 15, 20, 50);
             }
             else
             {

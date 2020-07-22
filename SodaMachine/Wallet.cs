@@ -21,11 +21,21 @@ namespace SodaMachine
             }
         }
         
-        
+        /// <summary>
+        /// Generic Wallet initialization with no coins.
+        /// </summary>
         public Wallet()
         {
             coins = new List<Coin>();
         }
+
+        /// <summary>
+        /// Wallet constructor with inputs to define number of each coin in wallet.
+        /// </summary>
+        /// <param name="numberOfQuarters">Number of Quarters to put in wallet.</param>
+        /// <param name="numberOfDimes">Number of Dimes to put in wallet.</param>
+        /// <param name="numberOfNickels">Number of Nickels to put in wallet.</param>
+        /// <param name="numberOfPennies">Number of Pennies to put in wallet.</param>
         public Wallet(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies)
         {
             coins = new List<Coin>();
@@ -47,22 +57,25 @@ namespace SodaMachine
             }
         }
 
+        #region Original Comments for planning.
+
         // Wallet can be initialized with coins.
         // Wallet can be intialized with no coins
         // Wallet can report how many coins it has.
         // Wallet can have coins removed.
         // Wallet can have coins added.
-
         // Return a copy of the List
 
+        #endregion
 
-        public double CalculateTotalAmount()
-        {
-            // Loop over each coin, tally values, set into TotalAmount/totalAmount.
-            return CoinCalculator.GetValueOfCoins(coins);
-        }
-
-        public void AddCoins(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies)
+        /// <summary>
+        /// Used to initialize the number of coins in the Wallet class. Easy define number of each coin.
+        /// </summary>
+        /// <param name="numberOfQuarters">Number of Quarters to put in wallet.</param>
+        /// <param name="numberOfDimes">Number of Dimes to put in wallet.</param>
+        /// <param name="numberOfNickels">Number of Nickels to put in wallet.</param>
+        /// <param name="numberOfPennies">Number of Pennies to put in wallet.</param>
+        public void InitializeWalletCoins(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies)
         {
             for (int i = 0; i < numberOfQuarters; i++)
             {
@@ -81,75 +94,35 @@ namespace SodaMachine
                 coins.Add(new Penny());
             }
             CoinCalculator.OrderByValue(ref coins);
-            
         }
 
+        /// <summary>
+        /// Add a list of coins into the Wallet class.
+        /// </summary>
+        /// <param name="change">List of coins to add into wallet.</param>
         public void AddCoins(ref List<Coin> change)
         {
             foreach(Coin coin in change)
             {
                 coins.Add(coin);
             }
-            //coins.InsertRange(0, change);
         }
 
-        // Refactor into One for loop.
-        public void AddCoins(string coinName, int numberOfCoins)
-        {
-            switch (coinName)
-            {
-                case "quarter":
-                    {
-                        for (int i = 0; i < numberOfCoins; i++)
-                        {
-                            coins.Add(new Quarter());
-                        }
-
-                        break;
-                    }
-
-                case "dime":
-                    {
-                        for (int i = 0; i < numberOfCoins; i++)
-                        {
-                            coins.Add(new Dime());
-                        }
-
-                        break;
-                    }
-
-                case "nickel":
-                    {
-                        for (int i = 0; i < numberOfCoins; i++)
-                        {
-                            coins.Add(new Nickel());
-                        }
-
-                        break;
-                    }
-
-                case "penny":
-                    {
-                        for (int i = 0; i < numberOfCoins; i++)
-                        {
-                            coins.Add(new Penny());
-                        }
-
-                        break;
-                    }
-                default:
-                    throw new Exception();
-                    
-            }
-            CoinCalculator.OrderByValue(ref coins);
-        }
-
+        
+        /// <summary>
+        /// Remove a coin by name from the wallet.
+        /// </summary>
+        /// <param name="coinName"></param>
         public void RemoveCoin(string coinName)
         {
             int index = coins.FindIndex(x => x.name == coinName);
             coins.RemoveAt(index);
         }
 
+        /// <summary>
+        /// Loops through and counts how many of each coin in the wallet.
+        /// </summary>
+        /// <returns></returns>
         public int[] CountOfCoins()
         {
             int numberOfQuarters = 0;
@@ -180,16 +153,62 @@ namespace SodaMachine
 
         #region Depreciated/ Refactored
 
-        public List<Coin> GetCoinList()
-        {
-            CoinCalculator.OrderByValue(ref coins);
-            
-            return coins;
-        }
+        // Used if passing names instead of obj references.
+        //public void AddCoins(string coinName, int numberOfCoins)
+        //{
+        //    switch (coinName)
+        //    {
+        //        case "quarter":
+        //            {
+        //                for (int i = 0; i < numberOfCoins; i++)
+        //                {
+        //                    coins.Add(new Quarter());
+        //                }
+
+        //                break;
+        //            }
+
+        //        case "dime":
+        //            {
+        //                for (int i = 0; i < numberOfCoins; i++)
+        //                {
+        //                    coins.Add(new Dime());
+        //                }
+
+        //                break;
+        //            }
+
+        //        case "nickel":
+        //            {
+        //                for (int i = 0; i < numberOfCoins; i++)
+        //                {
+        //                    coins.Add(new Nickel());
+        //                }
+
+        //                break;
+        //            }
+
+        //        case "penny":
+        //            {
+        //                for (int i = 0; i < numberOfCoins; i++)
+        //                {
+        //                    coins.Add(new Penny());
+        //                }
+
+        //                break;
+        //            }
+        //        default:
+        //            throw new Exception();
+
+        //    }
+        //    CoinCalculator.OrderByValue(ref coins);
+        //}
+
+
         #endregion
 
 
-        
+
 
     }
 }
