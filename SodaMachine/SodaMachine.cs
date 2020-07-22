@@ -195,7 +195,7 @@ namespace SodaMachine
                 return true;
             }
             // Set highest coins first in register
-            OrganizeRegister();
+            Coin.OrderByValue(ref register);
             double changeValue = 0;
             foreach (Coin coin in register)
             {
@@ -212,9 +212,9 @@ namespace SodaMachine
         }
         public void AcceptPayment(List<Coin> insertedCoins)
         {
-            // Add coins
+            // Add coins to register
             register.InsertRange(0, insertedCoins);
-            OrganizeRegister(); // Reorder register with highest value coins first
+            Coin.OrderByValue(ref register); // Reorder register with highest value coins first
         }
         public List<Coin> DispenseChange(double requiredChange)
         {
@@ -225,7 +225,7 @@ namespace SodaMachine
                 return change;
             }
             // Set highest coins first in register
-            OrganizeRegister();
+            Coin.OrderByValue(ref register);
             double changeValue = 0;
             foreach (Coin coin in register)
             {
@@ -269,13 +269,6 @@ namespace SodaMachine
         
         
         // Utility Methods
-        private void OrganizeInventory()
-        {
-            inventory = inventory.OrderBy(x => x.Name).ToList();
-        }
-        private void OrganizeRegister()
-        {
-            register = register.OrderByDescending(x => x.Value).ToList();
-        }
+        
     }
 }

@@ -144,10 +144,6 @@ namespace SodaMachine
             int index = coins.FindIndex(x => x.name == coinName);
             coins.RemoveAt(index);
         }
-        private void OrganizeCoinsInWallet()
-        {
-            coins = coins.OrderBy(x => x.name).ToList();
-        }
 
         public int[] CountOfCoins()
         {
