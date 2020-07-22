@@ -129,7 +129,7 @@ namespace SodaMachine
             if(CheckTransAction(sodaChoice, insertedCoins))
             {
                 AcceptPayment(insertedCoins);
-
+                Can dispensedSoda = DispenseSodaCan(sodaChoice);
 
                 return true;
             }
@@ -163,14 +163,24 @@ namespace SodaMachine
         }
         public double CaluclateChange(List<Coin> customerCoins, Can soda)
         {
-            
+            return CoinCalculator.GetValueOfCoins(customerCoins) - soda.Price;
             throw new NotImplementedException();
         }
         public bool CanGiveChange(double requriedChange)
         {
-
-
-            throw new NotImplementedException();
+            double changeValue = 0;
+            foreach(Coin coin in register)
+            {
+                if(changeValue + coin.Value == requriedChange)
+                {
+                    return true;
+                }
+                else if( changeValue + coin.Value < requriedChange)
+                {
+                    changeValue += coin.Value;
+                }
+            }
+            return false;
         }
         public bool CheckInventoryForSoda(Can soda)
         {
@@ -190,7 +200,19 @@ namespace SodaMachine
         }
         public Can DispenseSodaCan(Can soda)
         {
-            throw new NotImplementedException();
+            int index = inventory.FindIndex(x => x.name == soda.name);
+            inventory.RemoveAt(index);
+            switch (soda.Name)
+            {
+                case "Root Beer":
+                    return new RootBeer();
+                case "Cola":
+                    return new Cola();
+                case "Orange Soda":
+                    return new OrangeSoda();
+                default:
+                    throw new Exception();
+            }
         }
         private void OrganizeInventory()
         {
