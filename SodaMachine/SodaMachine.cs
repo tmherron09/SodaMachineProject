@@ -124,11 +124,23 @@ namespace SodaMachine
         // If enough coins inserted and enough change, dispense soda and subtract from inventory
         // Give change and subtract from register.
 
+        public bool Transaction(Customer customer, Can sodaChoice, List<Coin> insertedCoins)
+        {
+            if(CheckTransAction(sodaChoice, insertedCoins))
+            {
+                AcceptPayment(insertedCoins);
+
+
+                return true;
+            }
+            return false;
+        }
+
         public bool CheckTransAction(Can soda, List<Coin> customerCoins)
         {
             if (CheckInventoryForSoda(soda))
             {
-                if (CheckIfEnoughCoins(soda, customerCoins))
+                if (CheckIfEnoughMoney(soda, customerCoins))
                 {
                     double requiredChange = CaluclateChange(customerCoins, soda);
                     if (CanGiveChange(requiredChange))
@@ -140,16 +152,18 @@ namespace SodaMachine
             return false;
         }
 
-        public bool CheckIfEnoughCoins(Can soda, List<Coin> customerCoins)
+        public bool CheckIfEnoughMoney(Can soda, List<Coin> customerCoins)
         {
+            if(CoinCalculator.GetValueOfCoins(customerCoins) > soda.Price)
+            { 
+                return true; 
+            }
+            return false;
 
-
-
-            throw new NotImplementedException();
         }
         public double CaluclateChange(List<Coin> customerCoins, Can soda)
         {
-
+            
             throw new NotImplementedException();
         }
         public bool CanGiveChange(double requriedChange)
@@ -164,10 +178,10 @@ namespace SodaMachine
 
             return inventory.Exists(x => x.Name == soda.Name);
         }
-        public List<Coin> AcceptPayment(List<Coin> payment, Can soda)
+        public void AcceptPayment(List<Coin> insertedCoins)
         {
             // Add coins
-            throw new NotImplementedException();
+            register.InsertRange(-1, insertedCoins);
         }
         public List<Can> SodaOfferings()
         {

@@ -66,7 +66,7 @@ namespace SodaMachine
 
             List<Coin> insertedCoins = ChoseCoinsToInsert();
 
-            if (InsertedCoinsAccepted(sodaMachine))
+            if (InsertedCoinsAccepted(sodaMachine, sodaChoice, insertedCoins))
             {
 
 
@@ -123,8 +123,13 @@ namespace SodaMachine
             return coinChoices;
         }
 
-        private bool InsertedCoinsAccepted(SodaMachine sodaMachine)
+        private bool InsertedCoinsAccepted(SodaMachine sodaMachine, Can sodaChoice, List<Coin> insertedCoins)
         {
+            if(sodaMachine.Transaction(this, sodaChoice, insertedCoins))
+            {
+                return true;
+            }
+
             throw new NotImplementedException();
         }
 
