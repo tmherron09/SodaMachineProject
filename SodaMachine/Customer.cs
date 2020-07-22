@@ -45,26 +45,10 @@ namespace SodaMachine
         /// <returns>True/False if customer successfully got a soda.</returns>
         public bool UseSodaMachine(SodaMachine sodaMachine)
         {
-            Can sodaChoice = null;
-            bool isChoosingSoda;
-            do
-            {
-                isChoosingSoda = false;
-                sodaChoice = UserInterface.AskForSodaSelection(sodaMachine.sodaSelection);
-                Console.Clear();
-                if (!CheckIfCanAfford(sodaChoice.Price))
-                {
-                    
-                    if (!UserInterface.GetUserInputYesNo("You cannot afford this soda. Would you like to try a different one?", false))
-                    {
-                        return false;
-                    }
-                    isChoosingSoda = true;
-                }
-            } while (isChoosingSoda);
-            List<Coin> insertedCoins = ChoseCoinsToInsert();
-            
-            return sodaMachine.Transaction(this, sodaChoice, insertedCoins);
+
+            string sodaChoiceName = UserInterface.AskForSodaSelection(sodaMachine.sodaSelection);
+
+            return sodaMachine.Transaction(this, sodaChoiceName, ChoseCoinsToInsert());
         }
         /// <summary>
         /// Call for 4 inputs from User to determine how many coins to insert into vending machine.
