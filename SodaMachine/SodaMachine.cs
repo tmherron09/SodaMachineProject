@@ -1,24 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SodaMachine
 {
+    /// <summary>
+    /// Represents a physical soda machine. It contains a register with money in the form of Coins. Its inventory contains Cans of soda. It also has a set soda selection to display even when inventory is empty. It can accept coin and credit cards. It will Validate Transactions before processing and return necessary change if successful or failed.
+    /// </summary>
     public class SodaMachine
     {
         public List<Coin> register;
         public List<Can> inventory;
         public List<Can> sodaSelection; // All the sodas displayed on the machine for sale.
 
-        // On construct define starting coins
+        /// <summary>
+        /// Default Soda Machine constructor. Creates instance of Soda Machine with no money or inventory. Initializes "available" soda via InitializeSodaSelection() method.
+        /// </summary>
         public SodaMachine()
         {
             register = new List<Coin>();
             inventory = new List<Can>();
             InitializeSodaSelection();
         }
+        /// <summary>
+        /// Soda Machine constructor that creates a new instance of Soda Machine with given amounts of each coin. Will create empty inventory and initialize "available" soda via InitializeSodaSelection() method.
+        /// </summary>
+        /// <param name="numberOfQuarters">Number of Quarters for Register.</param>
+        /// <param name="numberOfDimes">Number of Dimes for Register.</param>
+        /// <param name="numberOfNickels">Number of Nickels for Register.</param>
+        /// <param name="numberOfPennies">Number of Pennies for Register.</param>
         public SodaMachine(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies)
         {
             inventory = new List<Can>();
@@ -40,8 +53,14 @@ namespace SodaMachine
             {
                 register.Add(new Penny());
             }
-
+            // No need to organize by value at initialization as we insert coins highest value first.
         }
+        /// <summary>
+        /// Soda Machine constructor that creates a new instance of Soda Machine with given inventory of each soda. Will create empty register and initialize "available" soda via InitializeSodaSelection() method.
+        /// </summary>
+        /// <param name="numberOfRootBeet">Number of Root Beer cans for Inventory.</param>
+        /// <param name="numberOfCola">Number of Cola cans for Inventory.</param>
+        /// <param name="numberOfOrangeSoda">Number of Orange Soda cans for Inventory.</param>
         public SodaMachine(int numberOfRootBeet, int numberOfCola, int numberOfOrangeSoda )
         {
             register = new List<Coin>();
@@ -60,6 +79,16 @@ namespace SodaMachine
                 inventory.Add(new RootBeer());
             }
         }
+        /// <summary>
+        /// Soda Machine constructor that creates a new instance of Soda Machine with given amounts of each coin and given inventory of each soda. Initialize "available" soda via InitializeSodaSelection() method. *It is recognized how unnecessarily large this looks.
+        /// </summary>
+        /// <param name="numberOfQuarters">Number of Quarters for Register.</param>
+        /// <param name="numberOfDimes">Number of Dimes for Register.</param>
+        /// <param name="numberOfNickels">Number of Nickels for Register.</param>
+        /// <param name="numberOfPennies">Number of Pennies for Register.</param>
+        /// <param name="numberOfRootBeet">Number of Root Beer cans for Inventory.</param>
+        /// <param name="numberOfCola">Number of Cola cans for Inventory.</param>
+        /// <param name="numberOfOrangeSoda">Number of Orange Soda cans for Inventory.</param>
         public SodaMachine(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies, int numberOfRootBeet, int numberOfCola, int numberOfOrangeSoda )
         {
             // Populate Register with coins.
@@ -96,14 +125,25 @@ namespace SodaMachine
             }
             // Initialize Soda Selection
             InitializeSodaSelection();
+            // No need to organize by value at initialization as we insert coins highest value first.
 
         }
+        /// <summary>
+        /// Soda Machine construct that takes a list of coins and cans. Stores them in Soda Machine register and inventory respectively. Constructor calls to Order the coins by descending value. Initialize "available" soda via InitializeSodaSelection() method.
+        /// </summary>
+        /// <param name="coins">List of coins to start in Register.</param>
+        /// <param name="cans">List of cans of soda to start in Inventory.</param>
         public SodaMachine(List<Coin> coins, List<Can> cans)
         {
             register = coins;
             inventory = cans;
             InitializeSodaSelection();
+            // Anytime an unknown amount of coins are inserted, the machine should auto order/sort the coins into their respective slots, first slot holding highest value of coin.
+            CoinCalculator.OrderByValue(ref register);
         }
+        /// <summary>
+        /// Initializes Soda Machine selection. This represents all soda sold by machine, whether it is in stock or not. Soda selection is currently hard coded. **TODO: Refactor as string and double, removing addition instances of unnecessary objects.
+        /// </summary>
         public void InitializeSodaSelection()
         {
             sodaSelection = new List<Can>()
@@ -113,20 +153,6 @@ namespace SodaMachine
                 new OrangeSoda()
             };
         }
-        
-        #region Original Planning Comments
-
-        // Methods
-        // Check if can is available.
-        // Return the price of a can.
-        // Calculate if enough coins inserted.
-        // Calculate Change value
-        // Calculate if enough coins can be returned.
-        // If enough coins inserted and enough change, dispense soda and subtract from inventory
-        // Give change and subtract from register.
-
-        #endregion
-
         /// <summary>
         /// Main method for processing a transaction on the Soda Machine. It takes a customer, their soda choice and their insert coins. It first validats if the machine can process the transactions. If valid, it will accept and add the coins. Dispense a soda to the customer class and return change if required.
         /// </summary>
@@ -134,29 +160,35 @@ namespace SodaMachine
         /// <param name="sodaChoice">A reference to the chosen soda.</param>
         /// <param name="insertedCoins">The list of coins inserted by the customer."</param>
         /// <returns></returns>
-        public bool Transaction(Customer customer, Can sodaChoice, List<Coin> insertedCoins)
+        public bool Transaction(Customer customer, string sodaChoiceName, List<Coin> insertedCoins)
         {
+            // Machine calculates how much money is inserted. Machine/method holds inserted coins during validation before depositing in Register or returning to customer.
             double changeAmount = CoinCalculator.GetValueOfCoins(insertedCoins);
-            if (CheckTransAction(sodaChoice, insertedCoins, ref changeAmount))
+            if (ValidateTransaction(sodaChoiceName, ref changeAmount))
             {
+                // If machine validates coin amount, coins immediatly drop into the register.
                 AcceptPayment(insertedCoins);
-                customer.backpack.AddCan(DispenseSodaCan(sodaChoice));
-                DispenseChange(changeAmount, customer);
-                UserInterface.DisplayList($"Enjoy your {sodaChoice.name}! Have a Great Day!", true, true, true);
+                customer.backpack.AddCan(DispenseSodaCan(sodaChoiceName)); //TODO: Refactor so Customer *Takes soda, and puts in backpack.
+                DispenseCoins(changeAmount, customer); // TODO: Refactor so Customer *Recieves dispensed Change.
+                UserInterface.DisplayList($"Enjoy your {sodaChoiceName}! Have a Great Day!", true, true, true);
                 return true;
             }
-            
+            // If machine fails to validate, coins inserted are immediately rerouted back to the customer.
             UserInterface.DisplayList("Please grab your change.", false, true, true);
-            DispenseChange(insertedCoins, customer);
-            //DispenseChange(CoinCalculator.GetValueOfCoins(insertedCoins), customer);
+            DispenseCoins(insertedCoins, customer); // TODO: Refactor so Customer *Recieves dispensed Change.
             return false;
         }
-        // Validation stage
-        public bool CheckTransAction(Can sodaChoice, List<Coin> insertedCoins, ref double changeAmount)
+        /// <summary>
+        /// Method holding all the validation checks for the soda machine. Validates soda inventory and validates money transfer can occur.
+        /// </summary>
+        /// <param name="sodaChoice">Name of soda chosen.</param>
+        /// <param name="changeAmount">Amount of change inserted into machine. Returns as amount of change to return.</param>
+        /// <returns>Returns True is valid transaction. If true changeAmount becomes amount of change to return to customer.</returns>
+        public bool ValidateTransaction(string sodaChoiceName, ref double changeAmount)
         {
-            if (CheckInventoryForSoda(sodaChoice))
+            if (ValidateInStock(sodaChoiceName))
             {
-                if (CheckValidMoneyExchange(sodaChoice, insertedCoins, ref changeAmount))
+                if (ValidateMoneyTransfer(sodaChoiceName, ref changeAmount))
                 {
                     return true;
                 }
@@ -165,21 +197,31 @@ namespace SodaMachine
             UserInterface.DisplayList("OUT OF STOCK", true);
             return false;
         }
-        public bool CheckInventoryForSoda(Can soda)
+        /// <summary>
+        /// Validates that requested soda is in stock in the soda machine inventory.
+        /// </summary>
+        /// <param name="soda">Soda to check in stock.</param>
+        /// <returns></returns>
+        public bool ValidateInStock(string sodaName)
         {
-            // Check if any matching sodas.
-
-            return inventory.Exists(x => x.name == soda.name);
+            return inventory.Exists(x => x.name == sodaName);
         }
-        public bool CheckValidMoneyExchange(Can soda, List<Coin> customerCoins, ref double changeAmount)
+        /// <summary>
+        /// Validates the amount of money inserted against inventory according to soda name.
+        /// </summary>
+        /// <param name="sodaChoiceName">Name of chosen soda.</param>
+        /// <param name="changeAmount"> Amount of change inserted into vending machine.</param>
+        /// <returns></returns>
+        public bool ValidateMoneyTransfer(string sodaChoiceName, ref double changeAmount)
         {
-            if (changeAmount >= soda.Price)
+            // First check price against amount of change inserted.
+            double price = sodaSelection.Find(x => x.name == sodaChoiceName).Price;
+            if (changeAmount >= price)
             {
-                // Create a temp, if Can give change fails, we will have unaltered changeAmount to return to customer.
-                double tempChangeAmount = Math.Round(changeAmount - soda.Price, 2);
-                if (CanGiveChange(tempChangeAmount))
+                // Round to account for Double errors.
+                changeAmount = Math.Round(changeAmount - price, 2);
+                if (ValidateAvailableChange(changeAmount))
                 {
-                    changeAmount = tempChangeAmount;
                     return true;
                 }
                 UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.", true, true);
@@ -188,15 +230,17 @@ namespace SodaMachine
             UserInterface.DisplayList("We're sorry, but the amount you entered is not enough.", true);
             return false;
         }
-        // Payment/Change Methods
-        public bool CanGiveChange(double changeAmount)
+        /// <summary>
+       /// Validates the Soda Machine's capacity to return the correct amount of change to the customer based on coins available in the register.
+       /// </summary>
+       /// <param name="changeAmount"></param>
+       /// <returns></returns>
+        public bool ValidateAvailableChange(double changeAmount)
         {
             if (changeAmount == 0)
             {
                 return true;
             }
-            // Set highest coins first in register, check if redundant
-            //Coin.OrderByValue(ref register);
             double changeValue = 0;
             foreach (Coin coin in register)
             {
@@ -211,13 +255,21 @@ namespace SodaMachine
             }
             return false;
         }
+        /// <summary>
+        /// Accepts coins into the register, should be called after validation processes.
+        /// </summary>
+        /// <param name="insertedCoins">Coins inserted by customer.</param>
         public void AcceptPayment(List<Coin> insertedCoins)
         {
-            // Add coins to register
-            register.InsertRange(0, insertedCoins); //
+            register.InsertRange(0, insertedCoins); // TODO: Test this works.
             CoinCalculator.OrderByValue(ref register); // Reorder register with highest value coins first
         }
-        public void DispenseChange(double amountToDispense, Customer customer)
+        /// <summary>
+        /// Dispenses coints directly to customer and removes from register.
+        /// </summary>
+        /// <param name="amountToDispense">Value of change to dispense.</param>
+        /// <param name="customer">Customer refernce to dispense coins unto.</param>
+        public void DispenseCoins(double amountToDispense, Customer customer)
         {
             if (amountToDispense == 0)
             {
@@ -248,17 +300,25 @@ namespace SodaMachine
             }
             customer.RecieveChange(ref change);
         }
-        public void DispenseChange(List<Coin> insertedCoins, Customer customer)
+       /// <summary>
+       /// Dispenses coins inserted by customer and held in change compartment during validation. Upon failure to validate transaction, coins are released back to customer.
+       /// </summary>
+       /// <param name="insertedCoins">Original coins inserted to customer to be dispensed back.</param>
+       /// <param name="customer">Customer who inserted coins.</param>
+        public void DispenseCoins(List<Coin> insertedCoins, Customer customer)
         {
             customer.RecieveChange(ref insertedCoins);
         }
-
-        // Soda Can Methods
-        public Can DispenseSodaCan(Can soda)
+        /// <summary>
+        /// Dispenses a can of soda matching the soda name input by customer.
+        /// </summary>
+        /// <param name="sodaChoiceName">Name of chosen soda by a customer.</param>
+        /// <returns>Selected can of soda matching input soda name.</returns>
+        public Can DispenseSodaCan(string sodaChoiceName)
         {
-            int index = inventory.FindIndex(x => x.name == soda.name);
+            int index = inventory.FindIndex(x => x.name == sodaChoiceName);
             inventory.RemoveAt(index);
-            switch (soda.name)
+            switch (sodaChoiceName)
             {
                 case "Root Beer":
                     return new RootBeer();
@@ -271,6 +331,24 @@ namespace SodaMachine
             }
         }
 
+
+
+
+
+        /* Below this Line are planning comments for reference and depreciated code or unused variants of methods that may be implemented at a later date.  */
+
+        #region Original Planning Comments
+
+        // Methods
+        // Check if can is available.
+        // Return the price of a can.
+        // Calculate if enough coins inserted.
+        // Calculate Change value
+        // Calculate if enough coins can be returned.
+        // If enough coins inserted and enough change, dispense soda and subtract from inventory
+        // Give change and subtract from register.
+
+        #endregion
 
 
         #region Method Alternative approach
@@ -385,6 +463,42 @@ namespace SodaMachine
             }
             return change;
         }
+        public Can DispenseSodaCan(Can soda)
+        {
+            int index = inventory.FindIndex(x => x.name == soda.name);
+            inventory.RemoveAt(index);
+            switch (soda.name)
+            {
+                case "Root Beer":
+                    return new RootBeer();
+                case "Cola":
+                    return new Cola();
+                case "Orange Soda":
+                    return new OrangeSoda();
+                default:
+                    throw new Exception();
+            }
+        }
+
+        
+        public bool CheckValidMoneyExchange(double sodaPrice, ref double changeAmount)
+        {
+            // First check if
+            if (changeAmount >= sodaPrice)
+            {
+                changeAmount = Math.Round(changeAmount - sodaPrice, 2);
+                if (ValidateAvailableChange(changeAmount))
+                {
+                    return true;
+                }
+                UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.", true, true);
+                return false;
+            }
+            UserInterface.DisplayList("We're sorry, but the amount you entered is not enough.", true);
+            return false;
+        }
+        
+
         Depcriated/ Dead Code */
 
 
