@@ -74,6 +74,8 @@ namespace SodaMachine
 
         }
 
+        
+
         private bool CheckIfCanAfford(double price)
         {
             throw new NotImplementedException();
@@ -86,41 +88,59 @@ namespace SodaMachine
             throw new NotImplementedException();
         }
 
+        
 
         private List<Coin> ChoseCoinsToInsert()
         {
             bool hasEnoughCoins = false;
-            int[] countOfCoins = wallet.CountOfCounts();
+            int[] countOfCoins = wallet.CountOfCoins();
             do
             {
                 List<Coin> coinChoices = new List<Coin>();
 
-                int numberOfQuarters = UserInterface.AskForCoinAmount("quarters", sodaChoice);
-                int numberOfDimes = UserInterface.AskForCoinAmount("dimes", wallet);
-                int numberOfNickels = UserInterface.AskForCoinAmount("nickels", wallet);
-                int numberOfPennies = UserInterface.AskForCoinAmount("pennies", wallet);
+                int numberOfQuarters = UserInterface.AskForCoinAmount("quarters", countOfCoins[0]);
+                int numberOfDimes = UserInterface.AskForCoinAmount("dimes", countOfCoins[1]);
+                int numberOfNickels = UserInterface.AskForCoinAmount("nickels", countOfCoins[2]);
+                int numberOfPennies = UserInterface.AskForCoinAmount("pennies", countOfCoins[3]);
 
-                for (int i = 0; i < numberOfQuarters; i++)
+                if(numberOfQuarters <= countOfCoins[0] && numberOfDimes <= countOfCoins[1] && numberOfNickels <= countOfCoins[2] && numberOfPennies <= countOfCoins[3])
                 {
-                    coinChoices.Add(new Quarter());
+                    hasEnoughCoins = true;
                 }
-                for (int i = 0; i < numberOfDimes; i++)
+                else
                 {
-                    coinChoices.Add(new Dime());
+                    hasEnoughCoins = false;
+                    UserInterface.DisplayList("You do not have that many coins in your wallet.", false, true, true);
                 }
-                for (int i = 0; i < numberOfNickels; i++)
+
+                if (hasEnoughCoins)
                 {
-                    coinChoices.Add(new Nickel());
+                    for (int i = 0; i < numberOfQuarters; i++)
+                    {
+                        coinChoices.Add(new Quarter());
+                    }
+                    for (int i = 0; i < numberOfDimes; i++)
+                    {
+                        coinChoices.Add(new Dime());
+                    }
+                    for (int i = 0; i < numberOfNickels; i++)
+                    {
+                        coinChoices.Add(new Nickel());
+                    }
+                    for (int i = 0; i < numberOfPennies; i++)
+                    {
+                        coinChoices.Add(new Penny());
+                    }
                 }
-                for (int i = 0; i < numberOfPennies; i++)
-                {
-                    coinChoices.Add(new Penny());
-                }
-                hasEnoughCoins = wallet.HasCoins();
 
             } while (hasEnoughCoins);
 
             return ;
+        }
+
+        private bool InsertedCoinsAccepted(SodaMachine sodaMachine)
+        {
+            throw new NotImplementedException();
         }
 
     }

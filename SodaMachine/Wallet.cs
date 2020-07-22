@@ -135,7 +135,34 @@ namespace SodaMachine
             coins = coins.OrderBy(x => x.name).ToList();
         }
 
+        public int[] CountOfCoins()
+        {
+            int numberOfQuarters = 0;
+            int numberOfDimes = 0;
+            int numberOfNickels = 0;
+            int numberOfPennies = 0;
+            List<Coin> coins = customer.CheckCustomerWalletContents();
+            foreach (Coin coin in coins)
+            {
+                switch (coin.name)
+                {
+                    case "quarter":
+                        numberOfQuarters++;
+                        break;
+                    case "dime":
+                        numberOfDimes++;
+                        break;
 
+                    case "nickel":
+                        numberOfNickels++;
+                        break;
+                    case "penny":
+                        numberOfPennies++;
+                        break;
+                }
+            }
+            return new int[] { numberOfQuarters, numberOfDimes, numberOfNickels, numberOfPennies };
+        }
 
         #region Depreciated/ Refactored
 
