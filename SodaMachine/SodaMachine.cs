@@ -42,7 +42,7 @@ namespace SodaMachine
             }
 
         }
-        public SodaMachine(int numberOfCola, int numberOfOrangeSoda, int numberOfRootBeet)
+        public SodaMachine(int numberOfRootBeet, int numberOfCola, int numberOfOrangeSoda )
         {
             register = new List<Coin>();
             InitializeSodaSelection();
@@ -60,7 +60,7 @@ namespace SodaMachine
                 inventory.Add(new RootBeer());
             }
         }
-        public SodaMachine(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies, int numberOfCola, int numberOfOrangeSoda, int numberOfRootBeet)
+        public SodaMachine(int numberOfQuarters, int numberOfDimes, int numberOfNickels, int numberOfPennies, int numberOfRootBeet, int numberOfCola, int numberOfOrangeSoda )
         {
             // Populate Register with coins.
             register = new List<Coin>();
@@ -160,7 +160,7 @@ namespace SodaMachine
                 }
                 return false;
             }
-            UserInterface.DisplayList("OUT OF STOCK");
+            UserInterface.DisplayList("OUT OF STOCK", true);
             return false;
         }
         public bool CheckInventoryForSoda(Can soda)
