@@ -30,7 +30,7 @@ namespace SodaMachine
             {
                 wallet = new Wallet();
                 backpack = new Backpack();
-                wallet.AddCoins(8, 15, 25, 50);
+                wallet.AddCoins(8, 15, 20, 50);
             }
             else
             {
@@ -95,11 +95,11 @@ namespace SodaMachine
             }
             return false;
         }
-        public void RecieveChange(List<Coin> change)
+        public void RecieveChange(ref List<Coin> change)
         {
             if (change != null)
             {
-                wallet.AddCoins(change);
+                wallet.AddCoins(ref change);
             }
         }
         

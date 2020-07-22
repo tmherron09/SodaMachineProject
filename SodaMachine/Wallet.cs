@@ -16,7 +16,7 @@ namespace SodaMachine
         {
             get
             {
-                this.totalAmount = CoinCalculator.GetValueOfCoins(coins);
+                this.totalAmount = Math.Round(CoinCalculator.GetValueOfCoins(coins), 2);
                 return this.totalAmount;
             }
         }
@@ -83,9 +83,13 @@ namespace SodaMachine
             Coin.OrderByValue(ref coins);
         }
 
-        public void AddCoins(List<Coin> coins)
+        public void AddCoins(ref List<Coin> change)
         {
-            coins.InsertRange(0, coins);
+            foreach(Coin coin in change)
+            {
+                coins.Add(coin);
+            }
+            //coins.InsertRange(0, change);
         }
 
         // Refactor into One for loop.

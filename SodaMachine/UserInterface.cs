@@ -59,6 +59,7 @@ namespace SodaMachine
             if (showPressAnyKey)
             {
                 Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
             }
         }
         public static void DisplayList(string text, bool clearScreen, bool showPressAnyKey, bool clearScreenAfterKeyPress)
@@ -71,6 +72,7 @@ namespace SodaMachine
             if (showPressAnyKey)
             {
                 Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
             }
             if (clearScreen)
             {

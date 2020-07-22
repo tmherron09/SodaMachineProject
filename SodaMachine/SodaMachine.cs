@@ -143,8 +143,10 @@ namespace SodaMachine
                 DispenseChange(changeAmount, customer);
                 return true;
             }
-            UserInterface.DisplayList("Please grab your change.", true, true, true);
-            DispenseChange(CoinCalculator.GetValueOfCoins(insertedCoins), customer);
+            
+            UserInterface.DisplayList("Please grab your change.", false, true, true);
+            DispenseChange(insertedCoins, customer);
+            //DispenseChange(CoinCalculator.GetValueOfCoins(insertedCoins), customer);
             return false;
         }
         // Validation stage
@@ -181,7 +183,7 @@ namespace SodaMachine
                 UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.", true, true);
                 return false;
             }
-            UserInterface.DisplayList("We're sorry, but the amount you entered is not enough.", true, true);
+            UserInterface.DisplayList("We're sorry, but the amount you entered is not enough.", true);
             return false;
         }
         // Payment/Change Methods
@@ -227,6 +229,7 @@ namespace SodaMachine
             {
                 if (Math.Round(changeValue + coin.Value, 2) == amountToDispense)
                 {
+                    changeValue += coin.Value;
                     change.Add(coin);
                     break;
                 }
@@ -241,8 +244,13 @@ namespace SodaMachine
                 int index = register.FindIndex(x => x.name == coin.name);
                 register.RemoveAt(index);
             }
-            customer.RecieveChange(change);
+            customer.RecieveChange(ref change);
         }
+        public void DispenseChange(List<Coin> insertedCoins, Customer customer)
+        {
+            customer.RecieveChange(ref insertedCoins);
+        }
+
         // Soda Can Methods
         public Can DispenseSodaCan(Can soda)
         {
