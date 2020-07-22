@@ -38,23 +38,38 @@ namespace SodaMachine
                 backpack = new Backpack();
             }
         }
-
-
+        /// <summary>
+        /// Main interaction between customer and a soda machine.
+        /// </summary>
+        /// <param name="sodaMachine">The soda machine instance being used.</param>
+        /// <returns>True/False if customer successfully got a soda.</returns>
         public bool UseSodaMachine(SodaMachine sodaMachine)
         {
             Can sodaChoice = null;
+            bool isChoosingSoda;
             do
             {
+                isChoosingSoda = false;
                 sodaChoice = UserInterface.AskForSodaSelection(sodaMachine.sodaSelection);
-            } while (!CheckIfCanAfford(sodaChoice.Price));
+                Console.Clear();
+                if (!CheckIfCanAfford(sodaChoice.Price))
+                {
+                    
+                    if (!UserInterface.GetUserInputYesNo("You cannot afford this soda. Would you like to try a different one?", false))
+                    {
+                        return false;
+                    }
+                    isChoosingSoda = true;
+                }
+            } while (isChoosingSoda);
             List<Coin> insertedCoins = ChoseCoinsToInsert();
-            double changeAmount = CoinCalculator.GetValueOfCoins(insertedCoins);
-            return sodaMachine.Transaction(this, sodaChoice, insertedCoins, ref changeAmount);
+            
+            return sodaMachine.Transaction(this, sodaChoice, insertedCoins);
         }
-
-
-
-
+        /// <summary>
+        /// Call for 4 inputs from User to determine how many coins to insert into vending machine.
+        /// </summary>
+        /// <returns>A list of coins customer wishes to insert.</returns>
         public List<Coin> ChoseCoinsToInsert()
         {
             int[] countOfCoins = wallet.CountOfCoins();
@@ -87,6 +102,11 @@ namespace SodaMachine
             }
             return coinChoices;
         }
+        /// <summary>
+        /// Checks if customer has enough remaining money to purchase selected soda.
+        /// </summary>
+        /// <param name="price"></param>
+        /// <returns></returns>
         public bool CheckIfCanAfford(double price)
         {
             if (wallet.TotalAmount > price)
@@ -95,6 +115,10 @@ namespace SodaMachine
             }
             return false;
         }
+        /// <summary>
+        /// Pass a list of coins to the customer's wallet.
+        /// </summary>
+        /// <param name="change">Coins to put in the customer wallet.</param>
         public void RecieveChange(ref List<Coin> change)
         {
             if (change != null)
@@ -102,25 +126,19 @@ namespace SodaMachine
                 wallet.AddCoins(ref change);
             }
         }
-        
-
-
-
-
-
 
         #region Unused/ Depreciated
 
-        public void RecieveSoda(Can soda)
-        {
-            backpack.AddCan(soda);
-        }
+        //public void RecieveSoda(Can soda)
+        //{
+        //    backpack.AddCan(soda);
+        //}
 
 
-        public List<Coin> CheckCustomerWalletContents()
-        {
-            return wallet.GetCoinList();  // Returns a copy of the Coin List
-        }
+        //public List<Coin> CheckCustomerWalletContents()
+        //{
+        //    return wallet.GetCoinList();  // Returns a copy of the Coin List
+        //}
 
         #endregion
 

@@ -80,7 +80,8 @@ namespace SodaMachine
             {
                 coins.Add(new Penny());
             }
-            Coin.OrderByValue(ref coins);
+            CoinCalculator.OrderByValue(ref coins);
+            
         }
 
         public void AddCoins(ref List<Coin> change)
@@ -138,9 +139,9 @@ namespace SodaMachine
                     }
                 default:
                     throw new Exception();
-                    break;
+                    
             }
-            Coin.OrderByValue(ref coins);
+            CoinCalculator.OrderByValue(ref coins);
         }
 
         public void RemoveCoin(string coinName)
@@ -181,7 +182,7 @@ namespace SodaMachine
 
         public List<Coin> GetCoinList()
         {
-            Coin.OrderByValue(ref coins);
+            CoinCalculator.OrderByValue(ref coins);
             
             return coins;
         }

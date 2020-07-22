@@ -134,13 +134,15 @@ namespace SodaMachine
         /// <param name="sodaChoice">A reference to the chosen soda.</param>
         /// <param name="insertedCoins">The list of coins inserted by the customer."</param>
         /// <returns></returns>
-        public bool Transaction(Customer customer, Can sodaChoice, List<Coin> insertedCoins, ref double changeAmount)
+        public bool Transaction(Customer customer, Can sodaChoice, List<Coin> insertedCoins)
         {
+            double changeAmount = CoinCalculator.GetValueOfCoins(insertedCoins);
             if (CheckTransAction(sodaChoice, insertedCoins, ref changeAmount))
             {
                 AcceptPayment(insertedCoins);
                 customer.backpack.AddCan(DispenseSodaCan(sodaChoice));
                 DispenseChange(changeAmount, customer);
+                UserInterface.DisplayList($"Enjoy your {sodaChoice.name}! Have a Great Day!", true, true, true);
                 return true;
             }
             
@@ -167,7 +169,7 @@ namespace SodaMachine
         {
             // Check if any matching sodas.
 
-            return inventory.Exists(x => x.Name == soda.Name);
+            return inventory.Exists(x => x.name == soda.name);
         }
         public bool CheckValidMoneyExchange(Can soda, List<Coin> customerCoins, ref double changeAmount)
         {
@@ -212,8 +214,8 @@ namespace SodaMachine
         public void AcceptPayment(List<Coin> insertedCoins)
         {
             // Add coins to register
-            register.InsertRange(0, insertedCoins);
-            Coin.OrderByValue(ref register); // Reorder register with highest value coins first
+            register.InsertRange(0, insertedCoins); //
+            CoinCalculator.OrderByValue(ref register); // Reorder register with highest value coins first
         }
         public void DispenseChange(double amountToDispense, Customer customer)
         {
@@ -223,7 +225,7 @@ namespace SodaMachine
             }
             List<Coin> change = new List<Coin>();
             // Set highest coins first in register
-            Coin.OrderByValue(ref register);
+            CoinCalculator.OrderByValue(ref register);
             double changeValue = 0;
             foreach (Coin coin in register)
             {
@@ -256,7 +258,7 @@ namespace SodaMachine
         {
             int index = inventory.FindIndex(x => x.name == soda.name);
             inventory.RemoveAt(index);
-            switch (soda.Name)
+            switch (soda.name)
             {
                 case "Root Beer":
                     return new RootBeer();

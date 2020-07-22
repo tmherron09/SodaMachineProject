@@ -66,6 +66,8 @@ namespace SodaMachine
             {
                 // Display a welcome message.
                 bool hasPurchasedSoda = customer.UseSodaMachine(sodaMachine);
+                
+                
                 if (!hasPurchasedSoda && !UserInterface.GetUserInputYesNo("We're sorry, would you like to try again?", true))
                 {
                     break;

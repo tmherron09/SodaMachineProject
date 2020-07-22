@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
+    /// <summary>
+    /// Coin Calculator holds commonly used methods to count and order coins in a List or Wallet."
+    /// </summary>
     public static class CoinCalculator
     {
 
@@ -24,9 +27,23 @@ namespace SodaMachine
             return Math.Round(totalValue, 2);
         }
 
+        /// <summary>
+        /// Static method to order a List of coins by highest value first.
+        /// </summary>
+        /// <param name="coins">List of coins to ReOrder</param>
+        public static void OrderByValue(ref List<Coin> coins)
+        {
+            coins = coins.OrderByDescending(x => x.Value).ToList();
+        }
 
-
-
+        /// <summary>
+        /// Static method to order a List of coins held in a Wallet
+        /// </summary>
+        /// <param name="coins">Wallet containing list of coins.</param>
+        public static void OrderByValue(Wallet wallet)
+        {
+            wallet.coins = wallet.coins.OrderByDescending(x => x.Value).ToList();
+        }
 
 
         #region Depreciated/ Unused
