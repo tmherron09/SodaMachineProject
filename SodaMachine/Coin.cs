@@ -14,43 +14,13 @@ namespace SodaMachine
         //public string Name { get { return name; } protected set { this.name = value; } }
         
 
-        public static int Alphabetize(string x, string y)
+        public static void OrderByValue(ref List<Coin> coins)
         {
-            if(x == null)
-            {
-                if(y == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
-            } 
-            else if (y == null)
-            {
-                return 1;
-            }
-            char a = x[0];
-            char b = y[0];
-            if( a == b)
-            {
-                return 0;
-            }
-            if(a < b)
-            {
-                return 1;
-            }
-            else
-            {
-                return -1;
-            }
-
+            coins = coins.OrderByDescending(x => x.Value).ToList();
         }
-
-        public static List<Coin> OrderByValue(List<Coin> coins)
+        public static void OrderByValue(Wallet wallet)
         {
-            return coins.OrderByDescending(x => x.Value).ToList();
+            wallet.coins = wallet.coins.OrderByDescending(x => x.Value).ToList();
         }
     }
 }

@@ -14,35 +14,14 @@ namespace SodaMachine
 
         // Display Messages, Text or List methods.
 
-        public static void DisplayList(List<Coin> coins)
+
+        /// <summary>
+        /// Default Write string to screen. Best for single line strings. No new line at end of string.
+        /// </summary>
+        /// <param name="text">A single line string</param>
+        public static void DisplayList(string text)
         {
-            List<string> names = new List<string>();
-            int counter = 0;
-            Console.WriteLine("This list contains:");
-            for (int i = 0; i < coins.Count; i++)
-            {
-                if (!names.Contains(coins[i].name))
-                {
-                    counter++;
-                    names.Add(coins[i].name);
-                    Console.WriteLine($"{counter}) {coins[i].name}");
-                }
-            }
-        }
-        public static void DisplayList(List<Can> cans)
-        {
-            List<string> lineText = new List<string>();
-            int counter = 0;
-            Console.WriteLine("This Soda Machine offers: ");
-            for (int i = 0; i < cans.Count; i++)
-            {
-                if (!lineText.Contains(cans[i].Name))
-                {
-                    counter++;
-                    lineText.Add(cans[i].Name);
-                    Console.WriteLine($"{counter + 1}) {cans[i].Name}");
-                }
-            }
+            Console.WriteLine(text);
         }
         public static void DisplayList(string[] textLines, bool hasNewLineEscapeCharacter)
         {
@@ -61,10 +40,7 @@ namespace SodaMachine
                 }
             }
         }
-        public static void DisplayList(string text)
-        {
-            Console.WriteLine(text);
-        }
+
         public static void DisplayList(string text, bool clearScreen)
         {
             if (clearScreen)
@@ -87,16 +63,16 @@ namespace SodaMachine
         }
         public static void DisplayList(string text, bool clearScreen, bool showPressAnyKey, bool clearScreenAfterKeyPress)
         {
-            if(clearScreen)
+            if (clearScreen)
             {
                 Console.Clear();
             }
             Console.WriteLine(text);
-            if(showPressAnyKey)
+            if (showPressAnyKey)
             {
                 Console.WriteLine("Press any key to continue...");
             }
-            if(clearScreen)
+            if (clearScreen)
             {
                 Console.Clear();
             }
@@ -111,9 +87,9 @@ namespace SodaMachine
                 Console.WriteLine($"You have {amountInWallet} {(amountInWallet == 1 ? coinName : coinName + "s")} in your wallet.\nHow many would you like to insert into the soda machine?\n");
                 Console.WriteLine("Amount: ");
                 valid = Int32.TryParse(Console.ReadLine(), out userInput);
-                if(valid)
+                if (valid)
                 {
-                    if(userInput < 0 || userInput > amountInWallet)
+                    if (userInput < 0 || userInput > amountInWallet)
                     {
                         DisplayList("You do not have that many coins in your wallet.", false, true, true);
                         valid = false;
@@ -156,48 +132,13 @@ namespace SodaMachine
         }
 
 
-
-        public static void DisplayListOfCoins(List<Coin> coins, string firstLineText, string lineTextModifier)
+        public static void PrintList(List<Coin> coins)
         {
-            int numberOfQuarters = 0;
-            int numberOfDimes = 0;
-            int numberOfNickels = 0;
-            int numberOfPennies = 0;
-
             foreach (Coin coin in coins)
             {
-                switch (coin.name)
-                {
-                    case "quarter":
-                        numberOfQuarters++;
-                        break;
-                    case "dime":
-                        numberOfDimes++;
-                        break;
-
-                    case "nickel":
-                        numberOfNickels++;
-                        break;
-                    case "penny":
-                        numberOfPennies++;
-                        break;
-                }
+                Console.WriteLine(coin.name);
             }
-            // Display contents
-            // Change from singular to plural. Zero will use the plural form given English something rule. 0 coins, not 0 coin.
-            string[] coinList = new string[] 
-            { 
-                $"{firstLineText}\n",
-                $"{lineTextModifier} {numberOfQuarters} {(numberOfQuarters == 1 ? "quarter": "quarters" )}.\n",
-                $"{lineTextModifier} {numberOfDimes} {(numberOfDimes == 1 ? "dime": "dimes" )}.\n",
-                $"{lineTextModifier} {numberOfNickels} {(numberOfNickels == 1 ? "nickel": "nickels" )}.\n",
-                $"{lineTextModifier} {numberOfPennies} {(numberOfPennies == 1 ? "penny": "pennies" )}.\n",
-            };
-            DisplayList(coinList, true);
         }
-
-
-
 
 
         // Display for specific Objects
@@ -213,16 +154,16 @@ namespace SodaMachine
             Console.WriteLine("The Soda Machine glows in front of you, before a cold beverage awaits!");
             do
             {
-                
+
                 Console.WriteLine("Which soda would you like to purchase today?");
-                
+
                 for (int i = 0; i < sodaSelection.Count; i++)
                 {
-                    Console.WriteLine($"{i+ 1}) {sodaSelection[i].Name}");
+                    Console.WriteLine($"{i + 1}) {sodaSelection[i].Name}");
                 }
                 bool valid = false;
                 sodaChoiceInput = Console.ReadLine();
-                for(int i = 0; i < sodaSelection.Count; i++)
+                for (int i = 0; i < sodaSelection.Count; i++)
                 {
                     if (sodaChoiceInput == $"{i + 1}" || sodaChoiceInput.ToLower() == sodaSelection[i].Name.ToLower())
                     {
@@ -234,7 +175,7 @@ namespace SodaMachine
                         }
                     }
                 }
-                if(!valid)
+                if (!valid)
                 {
                     Console.WriteLine("Invalid selection, try again. Press any key to continue...");
                     Console.ReadKey(true);
@@ -244,12 +185,6 @@ namespace SodaMachine
             } while (!decided || sodaChoice == null);
             return sodaChoice;
         }
-
-
-
-
-
-
 
 
 
@@ -280,16 +215,60 @@ namespace SodaMachine
         }
 
 
+        // Decoration
 
-
-
-        // Get user Coin Selection.
+        public static void DrawScreenDivider()
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(new string('█', Console.WindowWidth));
+            Console.ResetColor();
+            Console.WriteLine();
+        }
 
 
 
         #region Unused/ Depreciated
 
 
+        public static void DisplayListOfCoins(List<Coin> coins, string firstLineText, string lineTextModifier)
+        {
+            int numberOfQuarters = 0;
+            int numberOfDimes = 0;
+            int numberOfNickels = 0;
+            int numberOfPennies = 0;
+
+            foreach (Coin coin in coins)
+            {
+                switch (coin.name)
+                {
+                    case "quarter":
+                        numberOfQuarters++;
+                        break;
+                    case "dime":
+                        numberOfDimes++;
+                        break;
+
+                    case "nickel":
+                        numberOfNickels++;
+                        break;
+                    case "penny":
+                        numberOfPennies++;
+                        break;
+                }
+            }
+            // Display contents
+            // Change from singular to plural. Zero will use the plural form given English something rule. 0 coins, not 0 coin.
+            string[] coinList = new string[]
+            {
+                $"{firstLineText}\n",
+                $"{lineTextModifier} {numberOfQuarters} {(numberOfQuarters == 1 ? "quarter": "quarters" )}.\n",
+                $"{lineTextModifier} {numberOfDimes} {(numberOfDimes == 1 ? "dime": "dimes" )}.\n",
+                $"{lineTextModifier} {numberOfNickels} {(numberOfNickels == 1 ? "nickel": "nickels" )}.\n",
+                $"{lineTextModifier} {numberOfPennies} {(numberOfPennies == 1 ? "penny": "pennies" )}.\n",
+            };
+            DisplayList(coinList, true);
+        }
         public static void DisplayContentsOfCustomerWallet(Customer customer)
         {
             int numberOfQuarters = 0;
@@ -317,6 +296,36 @@ namespace SodaMachine
                 }
             }
             // Display contents
+        }
+        public static void DisplayList(List<Coin> coins)
+        {
+            List<string> names = new List<string>();
+            int counter = 0;
+            Console.WriteLine("This list contains:");
+            for (int i = 0; i < coins.Count; i++)
+            {
+                if (!names.Contains(coins[i].name))
+                {
+                    counter++;
+                    names.Add(coins[i].name);
+                    Console.WriteLine($"{counter}) {coins[i].name}");
+                }
+            }
+        }
+        public static void DisplayList(List<Can> cans)
+        {
+            List<string> lineText = new List<string>();
+            int counter = 0;
+            Console.WriteLine("This Soda Machine offers: ");
+            for (int i = 0; i < cans.Count; i++)
+            {
+                if (!lineText.Contains(cans[i].Name))
+                {
+                    counter++;
+                    lineText.Add(cans[i].Name);
+                    Console.WriteLine($"{counter + 1}) {cans[i].Name}");
+                }
+            }
         }
 
 

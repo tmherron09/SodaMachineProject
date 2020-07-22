@@ -86,9 +86,6 @@ namespace SodaMachine
             }
             return coinChoices;
         }
-
-
-
         public bool CheckIfCanAfford(double price)
         {
             if (wallet.TotalAmount > price)
@@ -97,7 +94,6 @@ namespace SodaMachine
             }
             return false;
         }
-
         public void RecieveChange(List<Coin> change)
         {
             wallet.AddCoins(change);

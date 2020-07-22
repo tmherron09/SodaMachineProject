@@ -80,7 +80,7 @@ namespace SodaMachine
             {
                 coins.Add(new Penny());
             }
-            OrganizeCoinsInWallet();
+            Coin.OrderByValue(ref coins);
         }
 
         public void AddCoins(List<Coin> coins)
@@ -136,7 +136,7 @@ namespace SodaMachine
                     throw new Exception();
                     break;
             }
-            OrganizeCoinsInWallet();
+            Coin.OrderByValue(ref coins);
         }
 
         public void RemoveCoin(string coinName)
@@ -181,12 +181,14 @@ namespace SodaMachine
 
         public List<Coin> GetCoinList()
         {
-            OrganizeCoinsInWallet();
-            List<Coin> coinsToReturn = coins;
-            return coinsToReturn;
+            Coin.OrderByValue(ref coins);
+            
+            return coins;
         }
         #endregion
 
+
+        
 
     }
 }
