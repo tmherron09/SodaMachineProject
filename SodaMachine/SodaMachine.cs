@@ -113,9 +113,10 @@ namespace SodaMachine
                 new OrangeSoda()
             };
         }
+        
+        #region Original Planning Comments
 
         // Methods
-
         // Check if can is available.
         // Return the price of a can.
         // Calculate if enough coins inserted.
@@ -123,7 +124,9 @@ namespace SodaMachine
         // Calculate if enough coins can be returned.
         // If enough coins inserted and enough change, dispense soda and subtract from inventory
         // Give change and subtract from register.
-        
+
+        #endregion
+
         /// <summary>
         /// Main method for processing a transaction on the Soda Machine. It takes a customer, their soda choice and their insert coins. It first validats if the machine can process the transactions. If valid, it will accept and add the coins. Dispense a soda to the customer class and return change if required.
         /// </summary>
@@ -131,46 +134,25 @@ namespace SodaMachine
         /// <param name="sodaChoice">A reference to the chosen soda.</param>
         /// <param name="insertedCoins">The list of coins inserted by the customer."</param>
         /// <returns></returns>
-        public bool Transaction(Customer customer, Can sodaChoice, List<Coin> insertedCoins)
-        {
-            if (CheckTransAction(sodaChoice, insertedCoins))
-            {
-                AcceptPayment(insertedCoins);
-                Can dispensedSoda = DispenseSodaCan(sodaChoice);
-                customer.backpack.AddCan(dispensedSoda);
-                double requiredChange = CaluclateChange(insertedCoins, sodaChoice);
-                customer.RecieveChange(DispenseChange(requiredChange));
-                return true;
-            }
-            
-            UserInterface.DisplayList("Please grab your change.", true, true, true);
-            DispenseChange(CoinCalculator.GetValueOfCoins(insertedCoins), customer);
-            return false;
-        }
         public bool Transaction(Customer customer, Can sodaChoice, List<Coin> insertedCoins, ref double changeAmount)
         {
-            if (CheckTransAction(sodaChoice, insertedCoins))
+            if (CheckTransAction(sodaChoice, insertedCoins, ref changeAmount))
             {
                 AcceptPayment(insertedCoins);
-                Can dispensedSoda = DispenseSodaCan(sodaChoice);
-                customer.backpack.AddCan(dispensedSoda);
-                changeAmount = Math.Round(changeAmount - sodaChoice.Price, 2);
+                customer.backpack.AddCan(DispenseSodaCan(sodaChoice));
                 DispenseChange(changeAmount, customer);
                 return true;
             }
-
             UserInterface.DisplayList("Please grab your change.", true, true, true);
             DispenseChange(CoinCalculator.GetValueOfCoins(insertedCoins), customer);
             return false;
         }
-
-
         // Validation stage
-        public bool CheckTransAction(Can sodaChoice, List<Coin> insertedCoins)
+        public bool CheckTransAction(Can sodaChoice, List<Coin> insertedCoins, ref double changeAmount)
         {
             if (CheckInventoryForSoda(sodaChoice))
             {
-                if (CheckValidMoneyExchange(sodaChoice, insertedCoins))
+                if (CheckValidMoneyExchange(sodaChoice, insertedCoins, ref changeAmount))
                 {
                     return true;
                 }
@@ -185,43 +167,40 @@ namespace SodaMachine
 
             return inventory.Exists(x => x.Name == soda.Name);
         }
-        public bool CheckValidMoneyExchange(Can soda, List<Coin> customerCoins)
+        public bool CheckValidMoneyExchange(Can soda, List<Coin> customerCoins, ref double changeAmount)
         {
-            if (CoinCalculator.GetValueOfCoins(customerCoins) > soda.Price)
+            if (changeAmount > soda.Price)
             {
-                double requiredChange = CaluclateChange(customerCoins, soda);
-                if (CanGiveChange(requiredChange))
+                // Create a temp, if Can give change fails, we will have unaltered changeAmount to return to customer.
+                double tempChangeAmount = Math.Round(changeAmount - soda.Price, 2);
+                if (CanGiveChange(tempChangeAmount))
                 {
+                    changeAmount = tempChangeAmount;
                     return true;
                 }
-                UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.",true,true);
+                UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.", true, true);
                 return false;
             }
-            UserInterface.DisplayList("We're sorry, but the amount you entered is not enough.",true,true);
+            UserInterface.DisplayList("We're sorry, but the amount you entered is not enough.", true, true);
             return false;
         }
-        
         // Payment/Change Methods
-        public double CaluclateChange(List<Coin> customerCoins, Can soda)
+        public bool CanGiveChange(double changeAmount)
         {
-            return Math.Round(CoinCalculator.GetValueOfCoins(customerCoins) - soda.Price, 2);
-        }
-        public bool CanGiveChange(double requiredChange)
-        {
-            if (requiredChange == 0)
+            if (changeAmount == 0)
             {
                 return true;
             }
-            // Set highest coins first in register
-            Coin.OrderByValue(ref register);
+            // Set highest coins first in register, check if redundant
+            //Coin.OrderByValue(ref register);
             double changeValue = 0;
             foreach (Coin coin in register)
             {
-                if (Math.Round(changeValue + coin.Value, 2) == requiredChange)
+                if (Math.Round(changeValue + coin.Value, 2) == changeAmount)
                 {
                     return true;
                 }
-                else if (changeValue + coin.Value < requiredChange)
+                else if (changeValue + coin.Value < changeAmount)
                 {
                     changeValue += coin.Value;
                 }
@@ -233,36 +212,6 @@ namespace SodaMachine
             // Add coins to register
             register.InsertRange(0, insertedCoins);
             Coin.OrderByValue(ref register); // Reorder register with highest value coins first
-        }
-        public List<Coin> DispenseChange(double amountToDispense)
-        {
-            if (amountToDispense == 0)
-            {
-                return null;
-            }
-            List<Coin> change = new List<Coin>();
-            // Set highest coins first in register
-            Coin.OrderByValue(ref register);
-            double changeValue = 0;
-            foreach (Coin coin in register)
-            {
-                if (Math.Round(changeValue + coin.Value,2) == amountToDispense)
-                {
-                    change.Add(coin);
-                    break;
-                }
-                else if (changeValue + coin.Value < amountToDispense)
-                {
-                    changeValue += coin.Value;
-                    change.Add(coin);
-                }
-            }
-            foreach (Coin coin in change)
-            {
-                int index = register.FindIndex(x => x.name == coin.name);
-                register.RemoveAt(index);
-            }
-            return change;
         }
         public void DispenseChange(double amountToDispense, Customer customer)
         {
@@ -294,8 +243,6 @@ namespace SodaMachine
             }
             customer.RecieveChange(change);
         }
-
-
         // Soda Can Methods
         public Can DispenseSodaCan(Can soda)
         {
@@ -313,9 +260,127 @@ namespace SodaMachine
                     throw new Exception();
             }
         }
-        
-        
-        // Utility Methods
-        
+
+
+
+        #region Method Alternative approach
+        /* Method Alternative Approach
+        public bool CanGiveChange(double changeAmount, ref List<Coin> coinChange)
+        {
+            if (changeAmount == 0)
+            {
+                return true;
+            }
+            // Set highest coins first in register
+            Coin.OrderByValue(ref register);
+            double changeValue = 0;
+            foreach (Coin coin in register)
+            {
+                if (Math.Round(changeValue + coin.Value, 2) == changeAmount)
+                {
+                    coinChange.Add(coin);
+                    return true;
+                }
+                else if (changeValue + coin.Value < changeAmount)
+                {
+                    changeValue += coin.Value;
+                    coinChange.Add(coin);
+                }
+            }
+            return false;
+            }
+        */
+        #endregion
+
+
+        #region Depreciated/ Dead Code
+
+        /* Depcriated/ Dead Code
+        public bool Transaction(Customer customer, Can sodaChoice, List<Coin> insertedCoins)
+        {
+            if (CheckTransAction(sodaChoice, insertedCoins))
+            {
+                AcceptPayment(insertedCoins);
+                Can dispensedSoda = DispenseSodaCan(sodaChoice);
+                customer.backpack.AddCan(dispensedSoda);
+                double requiredChange = CaluclateChange(insertedCoins, sodaChoice);
+                customer.RecieveChange(DispenseChange(requiredChange));
+                return true;
+            }
+
+            UserInterface.DisplayList("Please grab your change.", true, true, true);
+            DispenseChange(CoinCalculator.GetValueOfCoins(insertedCoins), customer);
+            return false;
+        }
+        public bool CheckTransAction(Can sodaChoice, List<Coin> insertedCoins)
+        {
+            if (CheckInventoryForSoda(sodaChoice))
+            {
+                if (CheckValidMoneyExchange(sodaChoice, insertedCoins))
+                {
+                    return true;
+                }
+                return false;
+            }
+            UserInterface.DisplayList("OUT OF STOCK");
+            return false;
+        }
+
+        public bool CheckValidMoneyExchange(Can soda, List<Coin> customerCoins)
+        {
+            if (CoinCalculator.GetValueOfCoins(customerCoins) > soda.Price)
+            {
+                double requiredChange = CaluclateChange(customerCoins, soda);
+                if (CanGiveChange(requiredChange))
+                {
+                    return true;
+                }
+                UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.", true, true);
+                return false;
+            }
+            UserInterface.DisplayList("We're sorry, but the amount you entered is not enough.", true, true);
+            return false;
+        }
+        public double CaluclateChange(List<Coin> customerCoins, Can soda)
+        {
+            return Math.Round(CoinCalculator.GetValueOfCoins(customerCoins) - soda.Price, 2);
+        }
+        public List<Coin> DispenseChange(double amountToDispense)
+        {
+            if (amountToDispense == 0)
+            {
+                return null;
+            }
+            List<Coin> change = new List<Coin>();
+            // Set highest coins first in register
+            Coin.OrderByValue(ref register);
+            double changeValue = 0;
+            foreach (Coin coin in register)
+            {
+                if (Math.Round(changeValue + coin.Value, 2) == amountToDispense)
+                {
+                    change.Add(coin);
+                    break;
+                }
+                else if (changeValue + coin.Value < amountToDispense)
+                {
+                    changeValue += coin.Value;
+                    change.Add(coin);
+                }
+            }
+            foreach (Coin coin in change)
+            {
+                int index = register.FindIndex(x => x.name == coin.name);
+                register.RemoveAt(index);
+            }
+            return change;
+        }
+        Depcriated/ Dead Code */
+
+
+        #endregion
+
+
+
     }
 }
