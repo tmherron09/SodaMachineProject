@@ -61,6 +61,46 @@ namespace SodaMachine
                 }
             }
         }
+        public static void DisplayList(string text)
+        {
+            Console.WriteLine(text);
+        }
+        public static void DisplayList(string text, bool clearScreen)
+        {
+            if (clearScreen)
+            {
+                Console.Clear();
+            }
+            Console.WriteLine(text);
+        }
+        public static void DisplayList(string text, bool clearScreen, bool showPressAnyKey)
+        {
+            if (clearScreen)
+            {
+                Console.Clear();
+            }
+            Console.WriteLine(text);
+            if (showPressAnyKey)
+            {
+                Console.WriteLine("Press any key to continue...");
+            }
+        }
+        public static void DisplayList(string text, bool clearScreen, bool showPressAnyKey, bool clearScreenAfterKeyPress)
+        {
+            if(clearScreen)
+            {
+                Console.Clear();
+            }
+            Console.WriteLine(text);
+            if(showPressAnyKey)
+            {
+                Console.WriteLine("Press any key to continue...");
+            }
+            if(clearScreen)
+            {
+                Console.Clear();
+            }
+        }
 
 
         public static void DisplayListOfCoins(List<Coin> coins)
