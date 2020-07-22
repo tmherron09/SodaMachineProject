@@ -80,6 +80,11 @@ namespace SodaMachine
             OrganizeCoinsInWallet();
         }
 
+        public void AddCoins(List<Coin> coins)
+        {
+            coins.InsertRange(0, coins);
+        }
+
         // Refactor into One for loop.
         public void AddCoins(string coinName, int numberOfCoins)
         {

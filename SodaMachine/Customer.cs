@@ -49,7 +49,7 @@ namespace SodaMachine
         }
         public void RecieveChange(List<Coin> change)
         {
-            throw new NotImplementedException();
+            wallet.AddCoins(change);
         }
         public void RecieveSoda(Can soda)
         {

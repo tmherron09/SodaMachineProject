@@ -134,6 +134,7 @@ namespace SodaMachine
                 double requiredChange = CaluclateChange(insertedCoins, sodaChoice);
                 customer.RecieveChange(DispenseChange(requiredChange));
 
+
                 return true;
             }
             return false;
