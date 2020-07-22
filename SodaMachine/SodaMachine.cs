@@ -173,11 +173,10 @@ namespace SodaMachine
         public double CaluclateChange(List<Coin> customerCoins, Can soda)
         {
             return CoinCalculator.GetValueOfCoins(customerCoins) - soda.Price;
-            throw new NotImplementedException();
         }
-        public bool CanGiveChange(double requriedChange)
+        public bool CanGiveChange(double requiredChange)
         {
-            if (requriedChange == 0)
+            if (requiredChange == 0)
             {
                 return true;
             }
@@ -186,11 +185,11 @@ namespace SodaMachine
             double changeValue = 0;
             foreach (Coin coin in register)
             {
-                if (changeValue + coin.Value == requriedChange)
+                if (changeValue + coin.Value == requiredChange)
                 {
                     return true;
                 }
-                else if (changeValue + coin.Value < requriedChange)
+                else if (changeValue + coin.Value < requiredChange)
                 {
                     changeValue += coin.Value;
                 }
@@ -232,9 +231,34 @@ namespace SodaMachine
         }
         public List<Coin> DispenseChange(double requiredChange)
         {
+            List<Coin> change = new List<Coin>();
 
-
-
+            if (requiredChange == 0)
+            {
+                return change;
+            }
+            // Set highest coins first in register
+            OrganizeRegister();
+            double changeValue = 0;
+            foreach (Coin coin in register)
+            {
+                if (changeValue + coin.Value == requiredChange)
+                {
+                    change.Add(coin);
+                    break;
+                }
+                else if (changeValue + coin.Value < requiredChange)
+                {
+                    changeValue += coin.Value;
+                    change.Add(coin);
+                }
+            }
+            foreach(Coin coin in change)
+            {
+                int index = register.FindIndex(x => x.name == coin.name);
+                register.RemoveAt(index);
+            }
+            return change;
         }
         private void OrganizeInventory()
         {
