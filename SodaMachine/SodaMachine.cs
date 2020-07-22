@@ -171,7 +171,7 @@ namespace SodaMachine
         }
         public bool CheckValidMoneyExchange(Can soda, List<Coin> customerCoins, ref double changeAmount)
         {
-            if (changeAmount > soda.Price)
+            if (changeAmount >= soda.Price)
             {
                 // Create a temp, if Can give change fails, we will have unaltered changeAmount to return to customer.
                 double tempChangeAmount = Math.Round(changeAmount - soda.Price, 2);

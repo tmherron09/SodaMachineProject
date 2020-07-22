@@ -21,7 +21,7 @@ namespace SodaMachine
             {
                 totalValue += coin.Value;
             }
-            return totalValue;
+            return Math.Round(totalValue, 2);
         }
 
 

@@ -29,8 +29,7 @@ namespace SodaMachine
             {
                 customer = new Customer(true);
                 // Creates a new SodaMachine with the default user stories values
-                //sodaMachine = new SodaMachine(20, 10, 20, 50, 5, 5, 5);
-                sodaMachine = new SodaMachine(20, 10, 20, 50, 5, 5, 0);
+                sodaMachine = new SodaMachine(20, 10, 20, 50, 5, 5, 5);
             }
             else
             {
