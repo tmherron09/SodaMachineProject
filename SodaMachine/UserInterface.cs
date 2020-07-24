@@ -91,10 +91,61 @@ namespace SodaMachine
 
         }
 
-        
 
+        public static int AskForCoinAmount(string coinName, int amountInWallet)
+        {
+            bool valid = false;
+            int userInput;
+            do
+            {
+                ClearGreenScreen();
+                WriteLiteralColor($"ͰGEBLYou have {amountInWallet} {(amountInWallet == 1 ? coinName : coinName + "s")} in your\nwallet .How many would you like to\ninsert into the soda machine?\n", leftPadGreenScreen, topPadGreenScreen + 5);
+                Console.SetCursorPosition(leftPadGreenScreen, topPadGreenScreen + 8);
+                valid = Int32.TryParse(Console.ReadLine(), out userInput);
+                if (valid)
+                {
+                    if (userInput < 0 || userInput > amountInWallet)
+                    {
+                        WriteLiteralColor("You do not have that\nmany coins in your wallet.", leftPadGreenScreen, topPadGreenScreen + 10);
+                        valid = false;
+                        Console.ReadKey(true);
+                    }
+                }
+            } while (!valid);
+            DisplayChosenCoinAmount(coinName, userInput);
+            ClearGreenScreen();
+            WriteLiteralColor("Press Any Key...", leftPadGreenScreen, topPadGreenScreen + 10);
+            Console.ReadKey(true);
+            return userInput;
+        }
 
+        public static void DisplayChosenCoinAmount(string coinName, int userInput)
+        {
+            switch(coinName)
+            {
+                case "quarters":
+                    WriteLiteralColor($"ͰGRBLQuarters: {userInput}", 25, 8);
+                    break;
+                case "dimes":
+                    WriteLiteralColor($"ͰGRBLDimes: {userInput}", 25, 10);
+                    break;
+                case "nickels":
+                    WriteLiteralColor($"ͰGRBLNickels: {userInput}", 25, 11);
+                    break;
+                case "pennies":
+                    WriteLiteralColor($"ͰGRBLPennies: {userInput}", 25, 12);
+                    break;
+                default:
+                    throw new Exception();
+            }
+        }
 
+        public static void MachineValidating(string validationStep, bool success)
+        {
+
+            //WriteLiteralColor()
+
+        }
 
 
 
@@ -168,28 +219,6 @@ namespace SodaMachine
             {
                 Console.Clear();
             }
-        }
-
-        public static int AskForCoinAmount(string coinName, int amountInWallet)
-        {
-            bool valid = false;
-            int userInput;
-            do
-            {
-                Console.WriteLine($"You have {amountInWallet} {(amountInWallet == 1 ? coinName : coinName + "s")} in your wallet.\nHow many would you like to insert into the soda machine?\n");
-                Console.WriteLine("Amount: ");
-                valid = Int32.TryParse(Console.ReadLine(), out userInput);
-                if (valid)
-                {
-                    if (userInput < 0 || userInput > amountInWallet)
-                    {
-                        DisplayList("You do not have that many coins in your wallet.", false, true, true);
-                        valid = false;
-                        Console.Clear();
-                    }
-                }
-            } while (!valid);
-            return userInput;
         }
 
         public static void DisplayListOfCoins(List<Coin> coins)
@@ -354,6 +383,7 @@ namespace SodaMachine
             while (true)
             {
                 ClearGreenScreen();
+                ClearGrayBox();
                 WriteLiteralColor(message, leftPad, topPad);
                 Console.SetCursorPosition(leftPad, Console.CursorTop + 1);
                 userChoice = Console.ReadLine().ToLower();
@@ -367,6 +397,7 @@ namespace SodaMachine
                 }
             }
         }
+        //Depreciated
         public static bool GetUserInputYesNo(string message, bool clearScreen, int leftPad, int topPad)
         {
             string userChoice;
