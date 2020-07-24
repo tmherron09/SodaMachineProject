@@ -26,7 +26,6 @@ namespace SodaMachine
             }
             return Math.Round(totalValue, 2);
         }
-
         /// <summary>
         /// Static method to order a List of coins by highest value first.
         /// </summary>
@@ -35,7 +34,5 @@ namespace SodaMachine
         {
             coins = coins.OrderByDescending(x => x.Value).ToList();
         }
-
-
     }
 }

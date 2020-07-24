@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
+    /// <summary>
+    /// Class defining a customer who will transact with a Soda Machine. A Customer has a wallet,
+    /// </summary>
     public class Customer
     {
         public Wallet wallet;
         public Backpack backpack;
-        public Card card;
 
 
         /// <summary>
@@ -32,7 +34,7 @@ namespace SodaMachine
                 wallet = new Wallet();
                 backpack = new Backpack();
                 wallet.InitializeWalletCoins(8, 15, 20, 50);
-                card = new Card(5.00);
+                
             }
             else
             {

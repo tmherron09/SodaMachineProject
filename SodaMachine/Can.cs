@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
+    /// <summary>
+    /// Abstract class definining cans of Soda. Cans have a price per can and a name.
+    /// </summary>
     abstract public class Can
     {
         protected double price;

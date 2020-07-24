@@ -13,14 +13,16 @@ namespace SodaMachine
     public static class UserInterface
     {
 
-        private static int heightOfSodaMachineOutline = 20;
-        public static int topPadding = (Console.LargestWindowHeight - heightOfSodaMachineOutline) / 2;
-        private static int leftPadding = 10;
-        private static int paddingForRightHeader = leftPadding + 10;
-        private static int leftPadGreenScreen = 74;
-        private static int topPadGreenScreen = 13;
+        private static readonly int heightOfSodaMachineOutline = 20;
+        public static readonly int topPadding = (Console.LargestWindowHeight - heightOfSodaMachineOutline) / 2;
+        private static readonly int leftPadding = 10;
+        private static readonly int paddingForRightHeader = leftPadding + 10;
+        private static readonly int leftPadGreenScreen = 74;
+        private static readonly int topPadGreenScreen = 13;
 
-
+        /// <summary>
+        /// Displays main welcome screen. Creates an instance of the backgroundCSV class to read data from. RunReplacer will parse the CSV data into UI usable string. DrawCSV art will process and parse the data into screen write data. Then displays welcome message and awaits user.
+        /// </summary>
         public static void DisplayWelcomeScreen()
         {
             BackgroundCSV background = new BackgroundCSV();
@@ -29,6 +31,9 @@ namespace SodaMachine
             WriteLiteralColor("ͰGRBL     Welcome, friend.\n\n    Would you care for\n\n         a Soda?\n\nͰGRGEPress any key to continues...Ω", 26, 9);
             Console.ReadKey(true);
         }
+        /// <summary>
+        /// Main
+        /// </summary>
         public static void DisplayMainScreen()
         {
             BackgroundCSV background = new BackgroundCSV();

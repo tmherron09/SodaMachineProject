@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
+    /// <summary>
+    /// Abstract class defining a Coin. Coins have a monetary value and name.
+    /// </summary>
     abstract public class Coin
     {
         protected double value;

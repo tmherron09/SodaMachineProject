@@ -9,6 +9,7 @@ namespace SodaMachine
     public class Wallet
     {
         public List<Coin> coins;
+        public Card card;
 
         // Is this a bad use of making a variable dynamic?
         private double totalAmount;
@@ -27,6 +28,7 @@ namespace SodaMachine
         public Wallet()
         {
             coins = new List<Coin>();
+            card = new Card(5.00); // Begin with default amount on card, standard with new accounts.
         }
         /// <summary>
         /// Wallet constructor with inputs to define number of each coin in wallet.

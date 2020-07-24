@@ -190,7 +190,7 @@ namespace SodaMachine
         }
         public bool Transaction(Customer customer, string sodaChoiceName)
         {
-            if (ValidateTransaction(sodaChoiceName, customer.card))
+            if (ValidateTransaction(sodaChoiceName, customer.wallet.card))
             {
                 customer.backpack.AddCan(DispenseSodaCan(sodaChoiceName)); //TODO: Refactor so Customer *Takes soda, and puts in backpack.
                 UserInterface.DisplayCan(sodaChoiceName);
