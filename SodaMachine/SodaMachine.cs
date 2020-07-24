@@ -170,6 +170,7 @@ namespace SodaMachine
                 // If machine validates coin amount, coins immediatly drop into the register.
                 AcceptPayment(insertedCoins);
                 customer.backpack.AddCan(DispenseSodaCan(sodaChoiceName)); //TODO: Refactor so Customer *Takes soda, and puts in backpack.
+                UserInterface.DisplayCan(sodaChoiceName);
                 DispenseCoins(changeAmount, customer); // TODO: Refactor so Customer *Recieves dispensed Change.
                 UserInterface.DisplayList($"Enjoy your {sodaChoiceName}! Have a Great Day!", true, true, true);
                 return true;
@@ -182,20 +183,23 @@ namespace SodaMachine
         /// <summary>
         /// Method holding all the validation checks for the soda machine. Validates soda inventory and validates money transfer can occur.
         /// </summary>
-        /// <param name="sodaChoice">Name of soda chosen.</param>
+        /// <param name="sodaChoiceName">Name of soda chosen.</param>
         /// <param name="changeAmount">Amount of change inserted into machine. Returns as amount of change to return.</param>
         /// <returns>Returns True is valid transaction. If true changeAmount becomes amount of change to return to customer.</returns>
         public bool ValidateTransaction(string sodaChoiceName, ref double changeAmount)
         {
             if (ValidateInStock(sodaChoiceName))
             {
+                UserInterface.MachineValidating("Validating Soda", $"{sodaChoiceName} Is In-Stock", 0);
                 if (ValidateMoneyTransfer(sodaChoiceName, ref changeAmount))
                 {
+                    UserInterface.MachineValidating("Validating Coins", "Cash Accepted", 1);
                     return true;
                 }
+                UserInterface.MachineValidating("Validating Coins", "Sorry, transaction cannot\nbe completed.", 1);
                 return false;
             }
-            UserInterface.DisplayList("OUT OF STOCK", true);
+            UserInterface.MachineValidating("Validating Soda Choice", $"{sodaChoiceName} is OUT-OF-STOCK", 0);
             return false;
         }
         /// <summary>
@@ -225,10 +229,8 @@ namespace SodaMachine
                 {
                     return true;
                 }
-                UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.", true, true);
                 return false;
             }
-            UserInterface.DisplayList("We're sorry, but the amount you entered is not enough.", true);
             return false;
         }
         /// <summary>

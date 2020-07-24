@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SodaMachine
@@ -140,14 +141,35 @@ namespace SodaMachine
             }
         }
 
-        public static void MachineValidating(string validationStep, bool success)
+        public static void MachineValidating(string validationStep, string resultMessage, int orderInValidationProcess)
         {
-
-            //WriteLiteralColor()
+            string validating = $"ͰGEBL{validationStep}";
+            WriteLiteralColor(validating, leftPadGreenScreen, topPadGreenScreen + orderInValidationProcess * 2);
+            string dots = "";
+            for(int i = 0; i < 5; i++)
+            {
+                dots += ".";
+                WriteLiteralColor(dots, leftPadGreenScreen + validating.Length + 1, topPadGreenScreen + orderInValidationProcess * 2);
+                Thread.Sleep(400);
+            }
+            WriteLiteralColor($"ͰGEBL{resultMessage}", leftPadGreenScreen + 10, topPadGreenScreen + 2 + (orderInValidationProcess * 2));
 
         }
 
+        public static void DisplayCan(string sodaName)
+        {
 
+            ClearGreenScreen();
+            ClearGrayBox();
+            WriteLiteralColor($"ͰGRBLPlease take your soda.", 25, 12);
+            SetFullBackgroundColor(ConsoleColor.Gray);
+
+
+
+
+
+
+        }
 
 
 
@@ -316,6 +338,11 @@ namespace SodaMachine
             } while (!decided || sodaChoice == null);
             return sodaChoice.name;
         }
+
+
+       
+
+
 
         // Positional Based UI Methods
 

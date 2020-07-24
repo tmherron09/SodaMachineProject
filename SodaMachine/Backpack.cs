@@ -22,6 +22,7 @@ namespace SodaMachine
         public void AddCan(Can soda)
         {
             cans.Add(soda);
+            
         }
         public void ReportContents()
         {
