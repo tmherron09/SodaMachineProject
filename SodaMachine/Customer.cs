@@ -10,6 +10,7 @@ namespace SodaMachine
     {
         public Wallet wallet;
         public Backpack backpack;
+        public Card card;
 
 
         /// <summary>
@@ -31,6 +32,7 @@ namespace SodaMachine
                 wallet = new Wallet();
                 backpack = new Backpack();
                 wallet.InitializeWalletCoins(8, 15, 20, 50);
+                card = new Card(5.00);
             }
             else
             {
@@ -54,8 +56,8 @@ namespace SodaMachine
                 return sodaMachine.Transaction(this, sodaChoiceName, ChoseCoinsToInsert());
             }
             UserInterface.ClearGrayBox();
-            //return sodaChoiceName.Transaction(this, sodaChoiceName, creditCard);
-            throw new NotImplementedException();
+            return sodaMachine.Transaction(this, sodaChoiceName);
+            
         }
         /// <summary>
         /// Call for 4 inputs from User to determine how many coins to insert into vending machine.
@@ -117,23 +119,6 @@ namespace SodaMachine
                 wallet.AddCoins(ref change);
             }
         }
-
-        #region Unused/ Depreciated
-
-        //public void RecieveSoda(Can soda)
-        //{
-        //    backpack.AddCan(soda);
-        //}
-
-
-        //public List<Coin> CheckCustomerWalletContents()
-        //{
-        //    return wallet.GetCoinList();  // Returns a copy of the Coin List
-        //}
-
-        #endregion
-
-
 
 
     }

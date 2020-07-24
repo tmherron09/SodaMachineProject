@@ -36,46 +36,6 @@ namespace SodaMachine
             coins = coins.OrderByDescending(x => x.Value).ToList();
         }
 
-        /// <summary>
-        /// Static method to order a List of coins held in a Wallet
-        /// </summary>
-        /// <param name="coins">Wallet containing list of coins.</param>
-        public static void OrderByValue(Wallet wallet)
-        {
-            wallet.coins = wallet.coins.OrderByDescending(x => x.Value).ToList();
-        }
-
-
-        #region Depreciated/ Unused
-
-        // Redundant switch case.
-        //public static double GetValueOfCoins(List<Coin> coins)
-        //{
-        //    double totalValue = 0;
-        //    foreach (Coin coin in coins)
-        //    {
-        //        switch (coin.name)
-        //        {
-        //            case "quarter":
-        //                totalValue += coin.Value;
-        //                break;
-        //            case "dime":
-        //                totalValue += coin.Value;
-        //                break;
-        //            case "nickel":
-        //                totalValue += coin.Value;
-        //                break;
-        //            case "penny":
-        //                totalValue += coin.Value;
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //    }
-        //    return totalValue;
-        //}
-
-        #endregion
 
     }
 }

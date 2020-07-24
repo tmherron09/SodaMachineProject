@@ -15,18 +15,10 @@ namespace SodaMachine
         {
             cans = new List<Can>();
         }
-
-        // Backpack can recieve cans.
-        // Backpack can report how many cans.
-
         public void AddCan(Can soda)
         {
             cans.Add(soda);
             
-        }
-        public void ReportContents()
-        {
-            throw new NotImplementedException();
         }
 
     }

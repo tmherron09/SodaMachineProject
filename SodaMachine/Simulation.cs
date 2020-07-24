@@ -38,6 +38,39 @@ namespace SodaMachine
             }
         }
 
+        public void RunSimulation()
+        {
+            //Call Initialization if
+            //InitializeSimuation();
+
+            bool isBuyingSoda = true;
+
+            while(isBuyingSoda)
+            {
+                UserInterface.DisplayWelcomeScreen();
+                bool hasPurchasedSoda = customer.UseSodaMachine(sodaMachine);
+
+                
+                if (!hasPurchasedSoda && !UserInterface.GetUserInputYesNo("ͰWHBLWe're sorry, would you like to try again?", 45, 12))
+                {
+                    break;
+                }
+                else
+                {
+                    isBuyingSoda = UserInterface.GetUserInputYesNo("ͰWHBLWould you like to buy another soda?", 45, 12); // While customer still using soda machine.
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
 
 
         // RunSimulation()
@@ -55,54 +88,28 @@ namespace SodaMachine
         // Start over.
 
 
-        public void RunSimulation()
-        {
-            //Call Initialization
-            //InitializeSimuation();
-
-            bool isBuyingSoda = true;
-
-            while(isBuyingSoda)
-            {
-                UserInterface.DisplayWelcomeScreen();
-                bool hasPurchasedSoda = customer.UseSodaMachine(sodaMachine);
-                
-                
-                if (!hasPurchasedSoda && !UserInterface.GetUserInputYesNo("We're sorry, would you like to try again?", true))
-                {
-                    break;
-                }
-
-                isBuyingSoda = UserInterface.GetUserInputYesNo("Would you like to buy another soda?", true); // While customer still using soda machine.
-
-            }
-            // Display Thank You
-        }
 
 
+        #region Unused Initialization Methods for Non-User stories
 
-
-
-
-        #region Initialization Methods for Non-User stories
         /* Initialization Methods */
-        private void InitializeSimuation()
-        {
-            // initialize a new SodaMachine
-            InitializeNewSodaMachine();
-            // Call method to initialize new Customer.
-            InitializeNewCustomer();
-        }
+        //private void InitializeSimuation()
+        //{
+        //    // initialize a new SodaMachine
+        //    InitializeNewSodaMachine();
+        //    // Call method to initialize new Customer.
+        //    InitializeNewCustomer();
+        //}
 
-        private void InitializeNewSodaMachine()
-        {
-            throw new NotImplementedException();
-        }
+        //private void InitializeNewSodaMachine()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        private void InitializeNewCustomer()
-        {
-            throw new NotImplementedException();
-        } 
+        //private void InitializeNewCustomer()
+        //{
+        //    throw new NotImplementedException();
+        //} 
         #endregion
 
 

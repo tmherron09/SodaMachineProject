@@ -10,8 +10,20 @@ namespace SodaMachine
     {
         static void Main(string[] args)
         {
-            // If you have issues with size. Right click the cmd frame and select "Properties" "Font" and select the Rasterized Font 8x8.
-            // You may also do this for a different appearence than standard console.
+            /* 
+             * 
+             * 
+             * If you have issues with size. Right click the cmd frame 
+             * and select "Properties" "Font" a
+             * select the Rasterized Font 8x8.
+             * You may also do this for a different appearence 
+             * than standard console.
+             * Graphics Are designed for a 120,35
+             *
+             *
+             */
+            
+            
             Console.SetWindowSize(120, 35);
             Console.CursorVisible = false;
 

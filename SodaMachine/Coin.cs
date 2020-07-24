@@ -12,10 +12,6 @@ namespace SodaMachine
         public string name;
         public double Value { get { return value; } }
 
-
-
-        
-        
         
     }
 }

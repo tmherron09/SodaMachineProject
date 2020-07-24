@@ -188,6 +188,25 @@ namespace SodaMachine
             Console.ReadKey();
             return false;
         }
+        public bool Transaction(Customer customer, string sodaChoiceName)
+        {
+            if (ValidateTransaction(sodaChoiceName, customer.card))
+            {
+                customer.backpack.AddCan(DispenseSodaCan(sodaChoiceName)); //TODO: Refactor so Customer *Takes soda, and puts in backpack.
+                UserInterface.DisplayCan(sodaChoiceName);
+                UserInterface.ClearGreenScreen();
+                UserInterface.DisplayMainScreen();
+                UserInterface.ClearGreenScreen();
+                UserInterface.WriteLiteralColor($"ͰGEBLEnjoy your {sodaChoiceName}!\nHave a Great Day!\nPress Any Key...", 74, 16);
+                Console.ReadKey(true);
+                return true;
+            }
+            // If machine fails to validate, coins inserted are immediately rerouted back to the customer.
+            UserInterface.ClearGreenScreen();
+            UserInterface.WriteLiteralColor("ͰGEBLPlease remember to\nHave a good day!.\nPress Any Key...", 74, 16);
+            Console.ReadKey();
+            return false;
+        }
         /// <summary>
         /// Method holding all the validation checks for the soda machine. Validates soda inventory and validates money transfer can occur.
         /// </summary>
@@ -207,7 +226,23 @@ namespace SodaMachine
                 UserInterface.MachineValidating("Validating Coins", "Sorry, transaction cannot\nbe completed.", 1);
                 return false;
             }
-            UserInterface.MachineValidating("Validating Soda Choice", $"{sodaChoiceName} is OUT-OF-STOCK", 0);
+            UserInterface.MachineValidating("Validating Soda Choice", $"{sodaChoiceName}\nis OUT-OF-STOCK", 0);
+            return false;
+        }
+        public bool ValidateTransaction(string sodaChoiceName, Card customerCard)
+        {
+            if (ValidateInStock(sodaChoiceName))
+            {
+                UserInterface.MachineValidating("Validating Soda", $"{sodaChoiceName} Is In-Stock", 0);
+                if (ValidateMoneyTransfer(sodaChoiceName, customerCard))
+                {
+                    UserInterface.MachineValidating("Validating Payment", "Payment Accepted", 1);
+                    return true;
+                }
+                UserInterface.MachineValidating("Validating Payment", "Sorry, insufficient funds.", 1);
+                return false;
+            }
+            UserInterface.MachineValidating("Validating Soda Choice", $"{sodaChoiceName} is\nOUT-OF-STOCK", 0);
             return false;
         }
         /// <summary>
@@ -241,11 +276,22 @@ namespace SodaMachine
             }
             return false;
         }
+        public bool ValidateMoneyTransfer(string sodaChoiceName, Card customerCard)
+        {
+            // First check price against amount of change inserted.
+            double price = sodaSelection.Find(x => x.name == sodaChoiceName).Price;
+            if (customerCard.Withdraw(price))
+            {
+                AcceptPayment(price);
+                return true;
+            }
+            return false;
+        }
         /// <summary>
-       /// Validates the Soda Machine's capacity to return the correct amount of change to the customer based on coins available in the register.
-       /// </summary>
-       /// <param name="changeAmount"></param>
-       /// <returns></returns>
+        /// Validates the Soda Machine's capacity to return the correct amount of change to the customer based on coins available in the register.
+        /// </summary>
+        /// <param name="changeAmount"></param>
+        /// <returns></returns>
         public bool ValidateAvailableChange(double changeAmount)
         {
             if (changeAmount == 0)
@@ -274,6 +320,10 @@ namespace SodaMachine
         {
             register.InsertRange(0, insertedCoins); 
             CoinCalculator.OrderByValue(ref register); // Reorder register with highest value coins first
+        }
+        public void AcceptPayment(double amount)
+        {
+            string magic = "Payment details confirmed by card company. Money is automatically deposited.";
         }
         /// <summary>
         /// Dispenses coints directly to customer and removes from register.
@@ -346,7 +396,18 @@ namespace SodaMachine
 
 
 
-        /* Below this Line are planning comments for reference and depreciated code or unused variants of methods that may be implemented at a later date.  */
+
+
+
+
+
+
+
+
+
+
+
+      
 
         #region Original Planning Comments
 
@@ -361,159 +422,6 @@ namespace SodaMachine
 
         #endregion
 
-
-        #region Method Alternative approach
-        /* Method Alternative Approach
-        public bool CanGiveChange(double changeAmount, ref List<Coin> coinChange)
-        {
-            if (changeAmount == 0)
-            {
-                return true;
-            }
-            // Set highest coins first in register
-            Coin.OrderByValue(ref register);
-            double changeValue = 0;
-            foreach (Coin coin in register)
-            {
-                if (Math.Round(changeValue + coin.Value, 2) == changeAmount)
-                {
-                    coinChange.Add(coin);
-                    return true;
-                }
-                else if (changeValue + coin.Value < changeAmount)
-                {
-                    changeValue += coin.Value;
-                    coinChange.Add(coin);
-                }
-            }
-            return false;
-            }
-        */
-        #endregion
-
-
-        #region Depreciated/ Dead Code
-
-        /* Depcriated/ Dead Code
-        public bool Transaction(Customer customer, Can sodaChoice, List<Coin> insertedCoins)
-        {
-            if (CheckTransAction(sodaChoice, insertedCoins))
-            {
-                AcceptPayment(insertedCoins);
-                Can dispensedSoda = DispenseSodaCan(sodaChoice);
-                customer.backpack.AddCan(dispensedSoda);
-                double requiredChange = CaluclateChange(insertedCoins, sodaChoice);
-                customer.RecieveChange(DispenseChange(requiredChange));
-                return true;
-            }
-
-            UserInterface.DisplayList("Please grab your change.", true, true, true);
-            DispenseChange(CoinCalculator.GetValueOfCoins(insertedCoins), customer);
-            return false;
-        }
-        public bool CheckTransAction(Can sodaChoice, List<Coin> insertedCoins)
-        {
-            if (CheckInventoryForSoda(sodaChoice))
-            {
-                if (CheckValidMoneyExchange(sodaChoice, insertedCoins))
-                {
-                    return true;
-                }
-                return false;
-            }
-            UserInterface.DisplayList("OUT OF STOCK");
-            return false;
-        }
-
-        public bool CheckValidMoneyExchange(Can soda, List<Coin> customerCoins)
-        {
-            if (CoinCalculator.GetValueOfCoins(customerCoins) > soda.Price)
-            {
-                double requiredChange = CaluclateChange(customerCoins, soda);
-                if (CanGiveChange(requiredChange))
-                {
-                    return true;
-                }
-                UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.", true, true);
-                return false;
-            }
-            UserInterface.DisplayList("We're sorry, but the amount you entered is not enough.", true, true);
-            return false;
-        }
-        public double CaluclateChange(List<Coin> customerCoins, Can soda)
-        {
-            return Math.Round(CoinCalculator.GetValueOfCoins(customerCoins) - soda.Price, 2);
-        }
-        public List<Coin> DispenseChange(double amountToDispense)
-        {
-            if (amountToDispense == 0)
-            {
-                return null;
-            }
-            List<Coin> change = new List<Coin>();
-            // Set highest coins first in register
-            Coin.OrderByValue(ref register);
-            double changeValue = 0;
-            foreach (Coin coin in register)
-            {
-                if (Math.Round(changeValue + coin.Value, 2) == amountToDispense)
-                {
-                    change.Add(coin);
-                    break;
-                }
-                else if (changeValue + coin.Value < amountToDispense)
-                {
-                    changeValue += coin.Value;
-                    change.Add(coin);
-                }
-            }
-            foreach (Coin coin in change)
-            {
-                int index = register.FindIndex(x => x.name == coin.name);
-                register.RemoveAt(index);
-            }
-            return change;
-        }
-        public Can DispenseSodaCan(Can soda)
-        {
-            int index = inventory.FindIndex(x => x.name == soda.name);
-            inventory.RemoveAt(index);
-            switch (soda.name)
-            {
-                case "Root Beer":
-                    return new RootBeer();
-                case "Cola":
-                    return new Cola();
-                case "Orange Soda":
-                    return new OrangeSoda();
-                default:
-                    throw new Exception();
-            }
-        }
-
-        
-        public bool CheckValidMoneyExchange(double sodaPrice, ref double changeAmount)
-        {
-            // First check if
-            if (changeAmount >= sodaPrice)
-            {
-                changeAmount = Math.Round(changeAmount - sodaPrice, 2);
-                if (ValidateAvailableChange(changeAmount))
-                {
-                    return true;
-                }
-                UserInterface.DisplayList("Sorry, this machine does not have the required amount of change.", true, true);
-                return false;
-            }
-            UserInterface.DisplayList("We're sorry, but the amount you entered is not enough.", true);
-            return false;
-        }
-        
-
-        Depcriated/ Dead Code */
-
-
-        #endregion
 
 
 

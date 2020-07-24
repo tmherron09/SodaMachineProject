@@ -12,7 +12,5 @@ namespace SodaMachine
         public string name;
         public double Price { get { return price; } protected set { this.price = value; } }
 
-
-
     }
 }
