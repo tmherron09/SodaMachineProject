@@ -10,14 +10,15 @@ namespace SodaMachine
     {
         static void Main(string[] args)
         {
-            // Set window to largest height.
-            Console.WindowHeight = Console.LargestWindowHeight;
+            // If you have issues with size. Right click the cmd frame and select "Properties" "Font" and select the Rasterized Font 8x8.
+            // You may also do this for a different appearence than standard console.
+            Console.SetWindowSize(120, 35);
             Console.CursorVisible = false;
 
-
+            
             Simulation simulation = new Simulation(true);
             simulation.RunSimulation();
-            Console.ReadLine();
+            Console.ReadKey(true);
         }
     }
 }

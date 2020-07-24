@@ -64,7 +64,7 @@ namespace SodaMachine
 
             while(isBuyingSoda)
             {
-                // Display a welcome message.
+                UserInterface.DisplayWelcomeScreen();
                 bool hasPurchasedSoda = customer.UseSodaMachine(sodaMachine);
                 
                 

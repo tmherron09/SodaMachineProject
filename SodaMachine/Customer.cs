@@ -45,8 +45,8 @@ namespace SodaMachine
         /// <returns>True/False if customer successfully got a soda.</returns>
         public bool UseSodaMachine(SodaMachine sodaMachine)
         {
-
-            string sodaChoiceName = UserInterface.AskForSodaSelection(sodaMachine.sodaSelection);
+            UserInterface.DisplayMainScreen();
+            string sodaChoiceName = UserInterface.SodaSelectionScreen(sodaMachine.sodaSelection);
 
             return sodaMachine.Transaction(this, sodaChoiceName, ChoseCoinsToInsert());
         }

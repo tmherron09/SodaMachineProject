@@ -261,7 +261,7 @@ namespace SodaMachine
         /// <param name="insertedCoins">Coins inserted by customer.</param>
         public void AcceptPayment(List<Coin> insertedCoins)
         {
-            register.InsertRange(0, insertedCoins); // TODO: Test this works.
+            register.InsertRange(0, insertedCoins); 
             CoinCalculator.OrderByValue(ref register); // Reorder register with highest value coins first
         }
         /// <summary>
