@@ -162,6 +162,7 @@ namespace SodaMachine
         /// <returns></returns>
         public bool Transaction(Customer customer, string sodaChoiceName, List<Coin> insertedCoins)
         {
+            
             // Machine calculates how much money is inserted. Machine/method holds inserted coins during validation before depositing in Register or returning to customer.
             double changeAmount = CoinCalculator.GetValueOfCoins(insertedCoins);
             if (ValidateTransaction(sodaChoiceName, ref changeAmount))

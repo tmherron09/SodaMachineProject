@@ -46,9 +46,13 @@ namespace SodaMachine
         public bool UseSodaMachine(SodaMachine sodaMachine)
         {
             UserInterface.DisplayMainScreen();
-            string sodaChoiceName = UserInterface.SodaSelectionScreen(sodaMachine.sodaSelection);
 
-            return sodaMachine.Transaction(this, sodaChoiceName, ChoseCoinsToInsert());
+            if (!UserInterface.GetUserInputYesNo("ͰGRBL  We now accept credit\n cards. Would you like to\nuse your credit card? (Y/N)", 25, 11))
+            {
+                string sodaChoiceName = UserInterface.SodaSelectionScreen(sodaMachine.sodaSelection);
+                return sodaMachine.Transaction(this, sodaChoiceName, ChoseCoinsToInsert());
+            }
+            return sodaChoiceName.Transaction(this, sodaChoiceName, creditCard);
         }
         /// <summary>
         /// Call for 4 inputs from User to determine how many coins to insert into vending machine.
