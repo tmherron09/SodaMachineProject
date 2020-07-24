@@ -60,6 +60,7 @@
     <Compile Include="Quarter.cs" />
     <Compile Include="RootBeer.cs" />
     <Compile Include="Simulation.cs" />
+    <Compile Include="SodaCanImageCSV.cs" />
     <Compile Include="SodaMachine.cs" />
     <Compile Include="TestCodeSaved.cs" />
     <Compile Include="UserInterface.cs" />

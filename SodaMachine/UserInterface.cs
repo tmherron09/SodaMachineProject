@@ -150,25 +150,44 @@ namespace SodaMachine
             {
                 dots += ".";
                 WriteLiteralColor(dots, leftPadGreenScreen + validating.Length + 1, topPadGreenScreen + orderInValidationProcess * 2);
-                Thread.Sleep(400);
+                Thread.Sleep(500);
             }
             WriteLiteralColor($"ͰGEBL{resultMessage}", leftPadGreenScreen + 10, topPadGreenScreen + 2 + (orderInValidationProcess * 2));
+            Thread.Sleep(1500);
 
         }
 
         public static void DisplayCan(string sodaName)
         {
-
+            SodaCanImageCSV soda = new SodaCanImageCSV();
             ClearGreenScreen();
             ClearGrayBox();
-            WriteLiteralColor($"ͰGRBLPlease take your soda.", 25, 12);
-            SetFullBackgroundColor(ConsoleColor.Gray);
-
-
-
-
-
-
+            WriteLiteralColor($"ͰGRBLPlease take\nyour {(sodaName == "Root Beer" ? "ͰDMYE" : (sodaName == "Cola" ? "ͰWHRE" : "ͰDYWH"))}{sodaName}", 25, 12);
+            
+            switch(sodaName)
+            {
+                case "Root Beer":
+                    SetFullBackgroundColor(ConsoleColor.Gray);
+                    string canBackground = RunReplacer(soda.rootBeer);
+                    DrawCSVArt(canBackground, 51, 2);
+                    WriteLiteralColor("ͰGRBLPlease Any Key...", 47, 32);
+                    
+                    break;
+                case "Cola":
+                    SetFullBackgroundColor(ConsoleColor.Blue);
+                    canBackground = RunReplacer(soda.cola);
+                    DrawCSVArt(canBackground, 51, 2);
+                    WriteLiteralColor("ͰBUBLPlease Any Key...", 47, 30);
+                    break;
+                case "Orange Soda":
+                    SetFullBackgroundColor(ConsoleColor.DarkRed);
+                    canBackground = RunReplacer(soda.orangeSoda);
+                    DrawCSVArt(canBackground, 51, 2);
+                    WriteLiteralColor("ͰDRBLPlease Any Key...", 47, 30);
+                    break;
+            }
+           
+            Console.ReadKey(true);
         }
 
 
@@ -639,7 +658,9 @@ namespace SodaMachine
                     throw new Exception("Color code incorrect.");
             }
         }
+        
         public static void DrawCSVArt(string csvArt)
+
         {
             string[] splitCSV = csvArt.Split(',');
 
@@ -759,6 +780,129 @@ namespace SodaMachine
             }
 
         }
+
+        public static void DrawCSVArt(string csvArt, int leftPad, int topPad)
+
+        {
+            string[] splitCSV = csvArt.Split(',');
+
+            for (int i = 0; i < splitCSV.Length; i += 5)
+            {
+                Console.SetCursorPosition(Convert.ToInt32(splitCSV[i]), Convert.ToInt32(splitCSV[i + 1]));
+
+                switch (splitCSV[i + 4])
+                {
+                    case "BL":
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        break;
+                    case "BU":
+                        Console.BackgroundColor = ConsoleColor.Blue;
+                        break;
+                    case "CY":
+                        Console.BackgroundColor = ConsoleColor.Cyan;
+                        break;
+                    case "DB":
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
+                        break;
+                    case "DC":
+                        Console.BackgroundColor = ConsoleColor.DarkCyan;
+                        break;
+                    case "DG":
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
+                        break;
+                    case "DE":
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        break;
+                    case "DM":
+                        Console.BackgroundColor = ConsoleColor.DarkMagenta;
+                        break;
+                    case "DR":
+                        Console.BackgroundColor = ConsoleColor.DarkRed;
+                        break;
+                    case "DY":
+                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                        break;
+                    case "GR":
+                        Console.BackgroundColor = ConsoleColor.Gray;
+                        break;
+                    case "GE":
+                        Console.BackgroundColor = ConsoleColor.Green;
+                        break;
+                    case "MA":
+                        Console.BackgroundColor = ConsoleColor.Magenta;
+                        break;
+                    case "RE":
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        break;
+                    case "WH":
+                        Console.BackgroundColor = ConsoleColor.White;
+                        break;
+                    case "YE":
+                        Console.BackgroundColor = ConsoleColor.Yellow;
+                        break;
+                    default:
+                        throw new Exception("Color code incorrect.");
+                }
+
+                //Foreground Color/ Text Color
+                switch (splitCSV[i + 3])
+                {
+                    case "BL":
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        break;
+                    case "BU":
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        break;
+                    case "CY":
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        break;
+                    case "DB":
+                        Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        break;
+                    case "DC":
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
+                        break;
+                    case "DG":
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        break;
+                    case "DE":
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        break;
+                    case "DM":
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                        break;
+                    case "DR":
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        break;
+                    case "DY":
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        break;
+                    case "GR":
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        break;
+                    case "GE":
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        break;
+                    case "MA":
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        break;
+                    case "RE":
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        break;
+                    case "WH":
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                    case "YE":
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        break;
+                    default:
+                        string temp = splitCSV[i + 3];
+                        throw new Exception("Color code incorrect.");
+                }
+                Console.Write(splitCSV[i + 2]);
+            }
+
+        }
         public static string RunReplacer(string design)
         {
 
@@ -793,7 +937,7 @@ namespace SodaMachine
             output = Regex.Replace(output, ",201,#", ",\u2554,#");
             output = Regex.Replace(output, ",187,#", ",\u2557,#");
             output = Regex.Replace(output, ",192,#", ",\u2514,#");
-            output = Regex.Replace(output, "217,#", ",\u2518,#");
+            output = Regex.Replace(output, ",217,#", ",\u2518,#");
             output = Regex.Replace(output, ",186,#", ",\u2551,#");
             output = Regex.Replace(output, ",176,#", ",\u2591,#");
             output = Regex.Replace(output, ",178,#", ",\u2593,#");
@@ -817,6 +961,7 @@ namespace SodaMachine
             output = Regex.Replace(output, ",136,#", ",\u00EA,#");
             output = Regex.Replace(output, ",0,#", ",\u0020,#");
             output = Regex.Replace(output, ",9,#", ",\u25CB,#");
+            output = Regex.Replace(output, ",182,#", ",\u2562,#");
             return output;
 
         }
