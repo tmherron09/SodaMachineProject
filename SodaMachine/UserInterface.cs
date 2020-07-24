@@ -100,14 +100,14 @@ namespace SodaMachine
             do
             {
                 ClearGreenScreen();
-                WriteLiteralColor($"ͰGEBLYou have {amountInWallet} {(amountInWallet == 1 ? coinName : coinName + "s")} in your\nwallet .How many would you like to\ninsert into the soda machine?\n", leftPadGreenScreen, topPadGreenScreen + 5);
-                Console.SetCursorPosition(leftPadGreenScreen, topPadGreenScreen + 8);
+                WriteLiteralColor($"ͰGEBLYou have {amountInWallet} {(amountInWallet == 1 ? coinName : coinName + "s")} in your\nwallet. How many would you\n like to insert into\nthe soda machine?\n", leftPadGreenScreen, topPadGreenScreen + 5);
+                Console.SetCursorPosition(leftPadGreenScreen, topPadGreenScreen + 9);
                 valid = Int32.TryParse(Console.ReadLine(), out userInput);
                 if (valid)
                 {
                     if (userInput < 0 || userInput > amountInWallet)
                     {
-                        WriteLiteralColor("You do not have that\nmany coins in your wallet.", leftPadGreenScreen, topPadGreenScreen + 10);
+                        WriteLiteralColor("ͰGEBLYou do not have that\nmany coins in your wallet.", leftPadGreenScreen, topPadGreenScreen + 10);
                         valid = false;
                         Console.ReadKey(true);
                     }
@@ -115,8 +115,9 @@ namespace SodaMachine
             } while (!valid);
             DisplayChosenCoinAmount(coinName, userInput);
             ClearGreenScreen();
-            WriteLiteralColor("Press Any Key...", leftPadGreenScreen, topPadGreenScreen + 10);
+            WriteLiteralColor("ͰGEBLPress Any Key...", leftPadGreenScreen, topPadGreenScreen + 10);
             Console.ReadKey(true);
+            ClearGreenScreen();
             return userInput;
         }
 
@@ -131,10 +132,10 @@ namespace SodaMachine
                     WriteLiteralColor($"ͰGRBLDimes: {userInput}", 25, 10);
                     break;
                 case "nickels":
-                    WriteLiteralColor($"ͰGRBLNickels: {userInput}", 25, 11);
+                    WriteLiteralColor($"ͰGRBLNickels: {userInput}", 25, 12);
                     break;
                 case "pennies":
-                    WriteLiteralColor($"ͰGRBLPennies: {userInput}", 25, 12);
+                    WriteLiteralColor($"ͰGRBLPennies: {userInput}", 25, 14);
                     break;
                 default:
                     throw new Exception();
@@ -144,15 +145,15 @@ namespace SodaMachine
         public static void MachineValidating(string validationStep, string resultMessage, int orderInValidationProcess)
         {
             string validating = $"ͰGEBL{validationStep}";
-            WriteLiteralColor(validating, leftPadGreenScreen, topPadGreenScreen + orderInValidationProcess * 2);
+            WriteLiteralColor(validating, leftPadGreenScreen, topPadGreenScreen + (orderInValidationProcess * 4));
             string dots = "";
             for(int i = 0; i < 5; i++)
             {
                 dots += ".";
-                WriteLiteralColor(dots, leftPadGreenScreen + validating.Length + 1, topPadGreenScreen + orderInValidationProcess * 2);
+                WriteLiteralColor(dots, leftPadGreenScreen + validating.Length + 1, topPadGreenScreen + orderInValidationProcess * 4);
                 Thread.Sleep(500);
             }
-            WriteLiteralColor($"ͰGEBL{resultMessage}", leftPadGreenScreen + 10, topPadGreenScreen + 2 + (orderInValidationProcess * 2));
+            WriteLiteralColor($"ͰGEBL{resultMessage}", leftPadGreenScreen + 10, topPadGreenScreen + 2 + (orderInValidationProcess * 4));
             Thread.Sleep(1500);
 
         }
@@ -922,6 +923,7 @@ namespace SodaMachine
             output = Regex.Replace(output, ",46,#", ",\u002E,#");
             output = Regex.Replace(output, ",44,#", ",\u00B8,#");
             output = Regex.Replace(output, ",32,#", ",\u0020,#");
+            output = Regex.Replace(output, ",15,#", ",\u00A2,#");
             output = Regex.Replace(output, ",218,#", ",\u250C,#");
             output = Regex.Replace(output, ",219,#", ",\u2588,#");
             output = Regex.Replace(output, ",196,#", ",\u2500,#");
@@ -932,7 +934,6 @@ namespace SodaMachine
             output = Regex.Replace(output, ",33,#", ",\u0021,#");
             output = Regex.Replace(output, ",38,#", ",\u0026,#");
             output = Regex.Replace(output, ",64,#", ",\u0064,#");
-            output = Regex.Replace(output, ",35,#", ",\u0023,#");
             output = Regex.Replace(output, ",205,#", ",\u2550,#");
             output = Regex.Replace(output, ",201,#", ",\u2554,#");
             output = Regex.Replace(output, ",187,#", ",\u2557,#");
@@ -955,13 +956,13 @@ namespace SodaMachine
             output = Regex.Replace(output, ",92,#", ",\u005C,#");
             output = Regex.Replace(output, ",42,#", ",\u002A,#");
             output = Regex.Replace(output, ",43,#", ",\u002B,#");
-            output = Regex.Replace(output, ",15,#", ",\u00A2,#");
             output = Regex.Replace(output, ",134,#", ",\u00E5,#");
             output = Regex.Replace(output, ",135,#", ",\u00E7,#");
             output = Regex.Replace(output, ",136,#", ",\u00EA,#");
             output = Regex.Replace(output, ",0,#", ",\u0020,#");
             output = Regex.Replace(output, ",9,#", ",\u25CB,#");
             output = Regex.Replace(output, ",182,#", ",\u2562,#");
+            output = Regex.Replace(output, ",35,#", ",\u0023,#");
             return output;
 
         }
@@ -1009,7 +1010,7 @@ namespace SodaMachine
         {
             for (int i = 0; i < 14; i++)
             {
-                WriteLiteralColor("ͰGEDE▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒\n", 74, 13 + i);
+                WriteLiteralColor("ͰGEDE▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒\n", 74, 13 + i);
             }                           
         }
 

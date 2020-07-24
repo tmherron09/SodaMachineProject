@@ -172,18 +172,18 @@ namespace SodaMachine
                 customer.backpack.AddCan(DispenseSodaCan(sodaChoiceName)); //TODO: Refactor so Customer *Takes soda, and puts in backpack.
                 UserInterface.DisplayCan(sodaChoiceName);
                 UserInterface.ClearGreenScreen();
-                UserInterface.WriteLiteralColor($"ͰGRBLPlease remember to\ntake your change.\nPress Any Key...", 74, 16);
-                Console.ReadKey(true);
                 UserInterface.DisplayMainScreen();
+                UserInterface.WriteLiteralColor($"ͰGEBLPlease remember to\ntake your change.\nPress Any Key...", 74, 16);
+                Console.ReadKey(true);
                 DispenseCoins(changeAmount, customer); // TODO: Refactor so Customer *Recieves dispensed Change.
                 UserInterface.ClearGreenScreen();
-                UserInterface.WriteLiteralColor($"ͰGRBLEnjoy your {sodaChoiceName}!\nHave a Great Day!\nPress Any Key...", 74, 16);
+                UserInterface.WriteLiteralColor($"ͰGEBLEnjoy your {sodaChoiceName}!\nHave a Great Day!\nPress Any Key...", 74, 16);
                 Console.ReadKey(true);
                 return true;
             }
             // If machine fails to validate, coins inserted are immediately rerouted back to the customer.
             UserInterface.ClearGreenScreen();
-            UserInterface.WriteLiteralColor("ͰGRBLPlease remember to\ntake your change.\nPress Any Key...", 74, 16);
+            UserInterface.WriteLiteralColor("ͰGEBLPlease remember to\ntake your change.\nPress Any Key...", 74, 16);
             DispenseCoins(insertedCoins, customer); // TODO: Refactor so Customer *Recieves dispensed Change.
             Console.ReadKey();
             return false;
