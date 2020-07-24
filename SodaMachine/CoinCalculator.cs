@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SodaMachine
+namespace SodaMachineSim
 {
     /// <summary>
     /// Coin Calculator holds commonly used methods to count and order coins in a List or Wallet."

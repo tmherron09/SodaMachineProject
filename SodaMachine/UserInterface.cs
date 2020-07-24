@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SodaMachine
+namespace SodaMachineSim
 {
     public static class UserInterface
     {
@@ -32,7 +32,7 @@ namespace SodaMachine
             Console.ReadKey(true);
         }
         /// <summary>
-        /// Main
+        /// Call to the UI to display the Main Background. Does not display any messages, but renders the background CSV data into screen display.
         /// </summary>
         public static void DisplayMainScreen()
         {
@@ -40,6 +40,11 @@ namespace SodaMachine
             string mainBackground = RunReplacer(background.background);
             DrawCSVArt(mainBackground);
         }
+        /// <summary>
+        /// Acts as the UI middle man communication between the customer and choosing a soda from the machine. The customer simply chooses a soda and passes the name along. *In later refactor, the soda selection will be passed as name and price instead of full instances of the classes.
+        /// </summary>
+        /// <param name="sodaSelection">List containing the Soda cans sold by soda machine.</param>
+        /// <returns>String of the name of the soda, exactly matching class name.</returns>
         public static string SodaSelectionScreen(List<Can> sodaSelection)
         {
             string sodaChoiceInput;
@@ -59,6 +64,7 @@ namespace SodaMachine
                 }
                 WriteLiteralColor(message, leftPadGreenScreen + 4, topPadGreenScreen + 2);
                 bool valid = false;
+                // SetCursorPosition is to ensure user input is not done on a new line at left = 0
                 Console.SetCursorPosition(leftPadGreenScreen + 4, topPadGreenScreen + 10);
                 sodaChoiceInput = Console.ReadLine();
                 for (int i = 0; i < sodaSelection.Count; i++)
@@ -89,10 +95,13 @@ namespace SodaMachine
                 }
             } while (!decided || sodaChoice == null);
             return sodaChoice.name;
-
-
-
         }
+        /// <summary>
+        /// Call to UI to ask user how much of a coin they wish to insert. Takes a named refernce of the coin for display purposes. Returns an integer representation of the amount. Amount of the coin is passed in by the method and is calculated on customer. The coins are removed from the wall from the calling method. Returned int is not connected to a coin, but rather the connection is made in called method.
+        /// </summary>
+        /// <param name="coinName">Name of coin to display</param>
+        /// <param name="amountInWallet">Amount of the coin in the wallet.</param>
+        /// <returns>Number representing an amount of coins.</returns>
         public static int AskForCoinAmount(string coinName, int amountInWallet)
         {
             bool valid = false;
@@ -120,6 +129,11 @@ namespace SodaMachine
             ClearGreenScreen();
             return userInput;
         }
+        /// <summary>
+        /// UI call that writes the chosen numer of a coin to a specific location of the main background. Specific coin display is hardcoded.
+        /// </summary>
+        /// <param name="coinName">Name of coin to display.</param>
+        /// <param name="userInput"></param>
         public static void DisplayChosenCoinAmount(string coinName, int userInput)
         {
             switch(coinName)

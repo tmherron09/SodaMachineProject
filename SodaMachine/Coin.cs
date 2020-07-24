@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SodaMachine
+namespace SodaMachineSim
 {
     /// <summary>
     /// Abstract class defining a Coin. Coins have a monetary value and name.

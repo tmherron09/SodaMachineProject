@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SodaMachine
+namespace SodaMachineSim
 {
     /// <summary>
     /// Background CSV holds references to CSV coded images for the two backgrounds. External resources are not currently being loaded. This class is not static as to help keep information out of memory unless written to the screen.

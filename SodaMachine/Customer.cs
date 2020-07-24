@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SodaMachine
+namespace SodaMachineSim
 {
     /// <summary>
     /// Class defining a customer who will transact with a Soda Machine. A Customer has a wallet,

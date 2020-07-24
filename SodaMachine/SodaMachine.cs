@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SodaMachine
+namespace SodaMachineSim
 {
     /// <summary>
     /// Represents a physical soda machine. It contains a register with money in the form of Coins. Its inventory contains Cans of soda. It also has a set soda selection to display even when inventory is empty. It can accept coin and credit cards. It will Validate Transactions before processing and return necessary change if successful or failed.
